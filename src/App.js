@@ -1,9 +1,9 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import Main from "./Main";
-import styled from "styled-components";
-import InfoPage from "./InfoPage";
-import Navbar from "./Navbar";
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Main from './Main';
+import styled from 'styled-components';
+import InfoPage from './InfoPage';
+import Navbar from './Navbar';
 
 const Styled = styled.div``;
 
