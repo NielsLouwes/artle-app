@@ -36,7 +36,7 @@ const style = {
   width: 500,
   height: 500,
   bgcolor: 'black',
-  border: '2px solid #000',
+  border: '2px solid black',
   boxShadow: 24,
   p: 4,
   color: 'white'
@@ -83,6 +83,7 @@ function Navbar() {
           <Heading>Settings</Heading>
           <Container>
             <Text>Feedback</Text>
+            <Link>insert link to email here</Link>
           </Container>
           <Container>
             <Text>Community</Text>
