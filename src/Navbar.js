@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import StackedLineChartOutlinedIcon from '@mui/icons-material/StackedLineChartOutlined';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 const Styled = styled.div`
   height: 6vh;
@@ -18,6 +17,7 @@ const Styled = styled.div`
 
 const Title = styled.h1`
   font-size: 2.1;
+  margin-left: 15px;
 `;
 
 const IconContainer = styled.div`
@@ -65,12 +65,9 @@ function Navbar() {
 
   return (
     <Styled>
-      <IconContainer>
-        <InfoOutlinedIcon />
-        <HelpOutlineOutlinedIcon />
-      </IconContainer>
       <Title>ArTle</Title>
       <IconContainer>
+        <HelpOutlineOutlinedIcon />
         <StackedLineChartOutlinedIcon />
         <SettingsOutlinedIcon onClick={handleOpen} />
       </IconContainer>
