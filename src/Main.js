@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
+import axios from 'axios';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import styled from 'styled-components';
@@ -21,20 +22,31 @@ const MainContainer = styled.div`
 
 const Button = styled.button``;
 
-const Text = styled.p``;
+// const Text = styled.p``;
 
 function Main() {
-  const [joke, setJoke] = useState('');
-  //   const response = axios.get(`https://api.artic.edu/api/v1/artworks/129884
-  // `);
+  // const [art, setArt] = useState('');
+  //data.thumbnail.lqip
 
-  const getJoke = () => {
-    fetch('https://api.chucknorris.io/jokes/random')
-      .then((response) => response.json())
-      .then((data) => {
-        setJoke(data.setup + ' ... ' + data.punchline);
-      });
+  // fetch('https://api.artic.edu/api/v1/artworks/129884')
+  //   .then((res) => res.json())
+  //   .then((data) => console.log(data.api_model));
+
+  const fetchData = async () => {
+    const [art, setArt] = useState('');
+
+    try {
+      const response = await axios('https://api.artic.edu/api/v1/artworks/129884');
+      const data = response.data;
+      setArt(data);
+    } catch (error) {
+      console.log(error.response);
+    }
   };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <Styled>
@@ -47,8 +59,7 @@ function Main() {
         noValidate
         autoComplete="off">
         <TextField id="outlined-basic" label="Guess last name" variant="outlined" />
-        <Button onClick={getJoke}>Get joke</Button>
-        <Text>{joke}</Text>
+        <Button>Get art</Button>
       </Box>
     </Styled>
   );
