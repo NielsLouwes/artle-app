@@ -22,9 +22,15 @@ const MainContainer = styled.div`
 
 const Button = styled.button``;
 
+const Image = styled.img`
+  width: 500px;
+  height: 500px;
+`;
+
 // const Text = styled.p``;
 
 function Main() {
+  const [art, setArt] = useState('');
   // const [art, setArt] = useState('');
   //data.thumbnail.lqip
 
@@ -33,11 +39,11 @@ function Main() {
   //   .then((data) => console.log(data.api_model));
 
   const fetchData = async () => {
-    const [art, setArt] = useState('');
-
     try {
       const response = await axios('https://api.artic.edu/api/v1/artworks/129884');
-      const data = response.data;
+      const json = response.data.data;
+      console.log(json);
+      const data = response.data.data.thumbnail.lqip;
       setArt(data);
     } catch (error) {
       console.log(error.response);
@@ -50,7 +56,9 @@ function Main() {
 
   return (
     <Styled>
-      <MainContainer></MainContainer>
+      <MainContainer>
+        <Image src={art}></Image>
+      </MainContainer>
       <Box
         component="form"
         sx={{
