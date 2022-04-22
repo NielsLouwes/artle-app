@@ -31,8 +31,7 @@ const Image = styled.img`
 
 function Main() {
   const [art, setArt] = useState('');
-  // const [art, setArt] = useState('');
-  //data.thumbnail.lqip
+  const [image, setImage] = useState('');
 
   // fetch('https://api.artic.edu/api/v1/artworks/129884')
   //   .then((res) => res.json())
@@ -44,24 +43,42 @@ function Main() {
   // need to grab the response image_id and past that back into the url at the end
   //https://api.artic.edu/api/v1/artworks/27991?fields=id,title,image_id/5cc6b6f1-5c4f-8fa1-7ac5-91b0c0403ae2
 
-  const fetchData = async () => {
+  const baseArtUrl = `https://www.artic.edu/iiif/2/`;
+
+  const retrieveImage = async () => {
     try {
       const response = await axios(
-        `https://api.artic.edu/api/v1/artworks/27991?fields=id,title,image_id/${imageId}`
+        `https://api.artic.edu/api/v1/artworks/27991?fields=id,title,image_id/`
       );
-      const json = response.data.data;
-      console.log(json);
-      const imageId = json.image_id;
+      const json = await response.data.data;
+      // console.log(json);
+      const imageId = await json.image_id;
+      setImage(imageId);
       console.log(imageId);
-      // const data = response.data.data.thumbnail.lqip;
-      setArt(response);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+  //imageID isn't showing here
+
+  const showPainting = async (imageId) => {
+    try {
+      console.log(image);
+      const image = await axios(`${baseArtUrl}${imageId}`);
+      setArt(image);
+      console.log(art);
     } catch (error) {
       console.log(error.response);
     }
   };
 
   useEffect(() => {
-    fetchData();
+    retrieveImage();
+  }, []);
+
+  useEffect(() => {
+    showPainting();
   }, []);
 
   return (
