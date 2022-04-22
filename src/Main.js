@@ -38,13 +38,23 @@ function Main() {
   //   .then((res) => res.json())
   //   .then((data) => console.log(data.api_model));
 
+  //randomize
+  //in the URL after artworks/ there is the number for the artworks
+  // randomize that with a function
+  // need to grab the response image_id and past that back into the url at the end
+  //https://api.artic.edu/api/v1/artworks/27991?fields=id,title,image_id/5cc6b6f1-5c4f-8fa1-7ac5-91b0c0403ae2
+
   const fetchData = async () => {
     try {
-      const response = await axios('https://api.artic.edu/api/v1/artworks/129884');
+      const response = await axios(
+        `https://api.artic.edu/api/v1/artworks/27991?fields=id,title,image_id/${imageId}`
+      );
       const json = response.data.data;
       console.log(json);
-      const data = response.data.data.thumbnail.lqip;
-      setArt(data);
+      const imageId = json.image_id;
+      console.log(imageId);
+      // const data = response.data.data.thumbnail.lqip;
+      setArt(response);
     } catch (error) {
       console.log(error.response);
     }
