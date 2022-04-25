@@ -31,7 +31,7 @@ const Image = styled.img`
 
 function Main() {
   const [art, setArt] = useState('');
-  const [image, setImage] = useState('');
+  // const [image, setImage] = useState('');
 
   // fetch('https://api.artic.edu/api/v1/artworks/129884')
   //   .then((res) => res.json())
@@ -51,9 +51,9 @@ function Main() {
         `https://api.artic.edu/api/v1/artworks/27991?fields=id,title,image_id/`
       );
       const json = await response.data.data;
-      // console.log(json);
+      console.log(json);
       const imageId = await json.image_id;
-      setImage(imageId);
+      // setImage(imageId);
       console.log(imageId);
     } catch (error) {
       console.log(error.response);
