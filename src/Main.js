@@ -50,24 +50,29 @@ function Main() {
       const response = await axios(
         `https://api.artic.edu/api/v1/artworks/27991?fields=id,title,image_id/`
       );
-      const json = await response.data.data;
-      console.log(json);
-      const imageId = await json.image_id;
-      // setImage(imageId);
-      console.log(imageId);
+      const json = await response.data.data.image_id;
+      console.log(json, 'json');
+      const artImage = axios(`${baseArtUrl}${json}`);
+      setArt(artImage);
     } catch (error) {
       console.log(error.response);
     }
   };
 
+  console.log(art);
+
+  // const result = fetch(
+  //   `https://api.artic.edu/api/v1/artworks/27991?fields=id,title,image_id/`
+  // ).then((response) => response.json());
+  // const json = response.data.data;
+  // console.log(json);
+
   //imageID isn't showing here
 
   const showPainting = async (imageId) => {
     try {
-      console.log(image);
       const image = await axios(`${baseArtUrl}${imageId}`);
       setArt(image);
-      console.log(art);
     } catch (error) {
       console.log(error.response);
     }
