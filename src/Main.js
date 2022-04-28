@@ -60,7 +60,7 @@ function Main() {
     } catch (error) {
       console.log(error.response);
     }
-  }
+  };
 
   // 2nd attempt at chaining api fetching
   const result = fetch(`https://api.artic.edu/api/v1/artworks/27991?fields=id,title,image_id/`)

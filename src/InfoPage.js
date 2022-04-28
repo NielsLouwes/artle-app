@@ -1,5 +1,12 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
+
+const Styled = styled.div`
+  height: 100vh;
+`;
+
+const MainContainer = styled.div``;
 
 function InfoPage() {
   const retrieveImage = async () => {
@@ -21,7 +28,18 @@ function InfoPage() {
     retrieveImage();
   }, []);
 
-  return <h2>Great job! Did you know...</h2>;
+  return (
+    <Styled>
+      <MainContainer>
+        <Image></Image>
+        <PaintingInfo>
+          <Name></Name>
+          <YearPainted></YearPainted>
+          <Description></Description>
+        </PaintingInfo>
+      </MainContainer>
+    </Styled>
+  );
 }
 
 export default InfoPage;
