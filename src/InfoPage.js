@@ -8,6 +8,16 @@ const Styled = styled.div`
 
 const MainContainer = styled.div``;
 
+const Image = styled.img``;
+
+const PaintingInfo = styled.div``;
+
+const Name = styled.p``;
+
+const YearPainted = styled.p``;
+
+const Description = styled.p``;
+
 function InfoPage() {
   const retrieveImage = async () => {
     try {
