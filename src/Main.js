@@ -45,27 +45,44 @@ function Main() {
 
   const baseArtUrl = `https://www.artic.edu/iiif/2/`;
 
+  //add this randomize as the imageID , append to baseArtUrl
+  const randomizePaintingId = Math.round(Math.random() * 29000);
+
   const retrieveImage = async () => {
     try {
       const response = await axios(
         `https://api.artic.edu/api/v1/artworks/27991?fields=id,title,image_id/`
       );
-      const json = await response.data.data.image_id;
-      console.log(json, 'json');
-      const artImage = axios(`${baseArtUrl}${json}`);
+      const imageID = await response.data.data.image_id;
+      console.log(imageID, 'IMAGE ID');
+      const artImage = axios(`${baseArtUrl}${imageID}`);
       setArt(artImage);
     } catch (error) {
       console.log(error.response);
     }
   };
+  // .then(data => {
+  // // const rocketId = data.rocket;
+  // return fetch(`${url}/rockets/${rocketId}`); // make a 2nd request and return a promise
+  // })
+  // .then(response => response.json())
+  // .catch(err => {
+  //   console.error('Request failed', err)
+  // })
 
-  console.log(art);
+  // 2nd attempt at chaining api fetching
+  const result = fetch(`https://api.artic.edu/api/v1/artworks/27991?fields=id,title,image_id/`)
+    .then((response) => response.json())
+    .then((data) => {
+      const paintingId = data.data.data.image_id;
 
-  // const result = fetch(
-  //   `https://api.artic.edu/api/v1/artworks/27991?fields=id,title,image_id/`
-  // ).then((response) => response.json());
-  // const json = response.data.data;
-  // console.log(json);
+      return fetch(`${baseArtUrl}${paintingId}`);
+    })
+    .catch((error) => {
+      console.error('Request failed', error);
+    });
+  //check that result is giving us what we want
+  console.log(result); // what is this returning?
 
   //imageID isn't showing here
 
