@@ -43,7 +43,7 @@ function InfoPage() {
       <MainContainer>
         <Image></Image>
         <PaintingInfo>
-          <Name></Name>
+          <Name>Hello</Name>
           <YearPainted></YearPainted>
           <Description></Description>
         </PaintingInfo>

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
-import axios from 'axios';
+// import axios from 'axios';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import styled from 'styled-components';
@@ -30,8 +30,9 @@ const Image = styled.img`
 // const Text = styled.p``;
 
 function Main() {
-  const [art, setArt] = useState('');
+  // const [art, setArt] = usesState('');
   // const [image, setImage] = useState('');
+  // const [data, setData] = useState(null);
 
   // fetch('https://api.artic.edu/api/v1/artworks/129884')
   //   .then((res) => res.json())
@@ -44,61 +45,85 @@ function Main() {
   //https://api.artic.edu/api/v1/artworks/27991?fields=id,title,image_id/5cc6b6f1-5c4f-8fa1-7ac5-91b0c0403ae2
 
   const baseArtUrl = `https://www.artic.edu/iiif/2/`;
+  // const imageSizeAppend = 'full/843,/0/default.jpg';
 
   //add this randomize as the imageID , append to baseArtUrl
-  const randomizePaintingId = Math.round(Math.random() * 29000);
+  // const randomizePaintingId = Math.round(Math.random() * 29000);
+
+  // const retrieveImage = async () => {
+  //   try {
+  //     const response = await axios(
+  //       `https://api.artic.edu/api/v1/artworks/27991?fields=id,title,image_id/`
+  //     );
+  //     const imageID = await response.data.data.image_id;
+  //     console.log(imageID, 'IMAGE ID');
+  //     const artImage = axios(`${baseArtUrl}${imageID}`);
+  //     setArt(artImage);
+  //   } catch (error) {
+  //     console.log(error.response);
+  //   }
+  // };
 
   const retrieveImage = async () => {
-    try {
-      const response = await axios(
-        `https://api.artic.edu/api/v1/artworks/27991?fields=id,title,image_id/`
-      );
-      const imageID = await response.data.data.image_id;
-      console.log(imageID, 'IMAGE ID');
-      const artImage = axios(`${baseArtUrl}${imageID}`);
-      setArt(artImage);
-    } catch (error) {
-      console.log(error.response);
-    }
+    fetch(`https://api.artic.edu/api/v1/artworks/27991?fields=id,title,image_id/`)
+      .then((response) => response.json())
+      .then((data) => {
+        const paintingId = data.data.image_id;
+        console.log(paintingId); // we get the image ID
+
+        fetch(`${baseArtUrl}${paintingId}`)
+          .then((response) => response.json())
+          .then((data) => {
+            const artUrl = data.id;
+            console.log(artUrl);
+            console.log('data', data);
+          });
+      })
+      .catch((error) => {
+        console.error('Request failed', error);
+      });
+
+    //check that result is giving us what we want
+    // console.log(result); // what is this returning?
   };
 
   // 2nd attempt at chaining api fetching
-  const result = fetch(`https://api.artic.edu/api/v1/artworks/27991?fields=id,title,image_id/`)
-    .then((response) => response.json())
-    .then((data) => {
-      const paintingId = data.data.data.image_id;
+  // const result = fetch(`https://api.artic.edu/api/v1/artworks/27991?fields=id,title,image_id/`)
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     const paintingId = data.data.data.image_id;
 
-      return fetch(`${baseArtUrl}${paintingId}`);
-    })
-    .catch((error) => {
-      console.error('Request failed', error);
-    });
-  //check that result is giving us what we want
-  console.log(result); // what is this returning?
+  //     return fetch(`${baseArtUrl}${paintingId}`);
+  //   })
+  //   .catch((error) => {
+  //     console.error('Request failed', error);
+  //   });
+  // //check that result is giving us what we want
+  // console.log(result); // what is this returning?
 
   //imageID isn't showing here
 
-  const showPainting = async (imageId) => {
-    try {
-      const image = await axios(`${baseArtUrl}${imageId}`);
-      setArt(image);
-    } catch (error) {
-      console.log(error.response);
-    }
-  };
+  // const showPainting = async (imageId) => {
+  //   try {
+  //     const image = await axios(`${baseArtUrl}${imageId}`);
+  //     setArt(image);
+  //   } catch (error) {
+  //     console.log(error.response);
+  //   }
+  // };
 
   useEffect(() => {
     retrieveImage();
   }, []);
 
-  useEffect(() => {
-    showPainting();
-  }, []);
+  // useEffect(() => {
+  //   showPainting();
+  // }, []);
 
   return (
     <Styled>
       <MainContainer>
-        <Image src={art}></Image>
+        <Image></Image>
       </MainContainer>
       <Box
         component="form"
