@@ -34,10 +34,6 @@ function Main() {
   // const [image, setImage] = useState('');
   // const [data, setData] = useState(null);
 
-  // fetch('https://api.artic.edu/api/v1/artworks/129884')
-  //   .then((res) => res.json())
-  //   .then((data) => console.log(data.api_model));
-
   //randomize
   //in the URL after artworks/ there is the number for the artworks
   // randomize that with a function
@@ -45,7 +41,6 @@ function Main() {
   //https://api.artic.edu/api/v1/artworks/27991?fields=id,title,image_id/5cc6b6f1-5c4f-8fa1-7ac5-91b0c0403ae2
 
   const baseArtUrl = `https://www.artic.edu/iiif/2/`;
-  // const imageSizeAppend = 'full/843,/0/default.jpg';
 
   //add this randomize as the imageID , append to baseArtUrl
   // const randomizePaintingId = Math.round(Math.random() * 29000);
