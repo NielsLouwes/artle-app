@@ -5,11 +5,23 @@ import styled from 'styled-components';
 
 const Styled = styled.div`
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  height: 94vh;
+  align-items: center;
+  flex-direction: column;
 `;
 
-const MainContainer = styled.div``;
+const MainContainer = styled.div`
+  width: 650px;
+  height: 650px;
+`;
 
-const Image = styled.img``;
+const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
 
 const PaintingInfo = styled.div``;
 

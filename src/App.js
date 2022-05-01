@@ -40,10 +40,6 @@ function App() {
         const classificationType = data.data.classification_titles[0];
         const paintingYear = data.data.fiscal_year;
 
-        console.log(paintingTitle);
-        console.log(classificationType);
-        console.log(artistTitle);
-
         setPaintingData({
           artist: artistTitle,
           title: paintingTitle,
