@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
+
 import styled from 'styled-components';
 
 const Styled = styled.div`
@@ -15,40 +15,24 @@ const PaintingInfo = styled.div``;
 
 const Name = styled.p``;
 
+const Title = styled.p``;
+
 const YearPainted = styled.p``;
 
 const Description = styled.p``;
 
-function InfoPage({ art }) {
-  const retrieveImage = async () => {
-    try {
-      const response = await axios(
-        `https://api.artic.edu/api/v1/artworks/27991?fields=id,title,image_id/`
-      );
-      const json = await response.data.data;
-      console.log(json);
-      const imageId = await json.image_id;
-      // setImage(imageId);
-      console.log(imageId);
-    } catch (error) {
-      console.log(error.response);
-    }
-  };
-
-  console.log(art);
-
-  useEffect(() => {
-    retrieveImage();
-  }, []);
+function InfoPage({ art, paintingData }) {
+  console.log(paintingData);
 
   return (
     <Styled>
       <MainContainer>
         <Image src={art}></Image>
         <PaintingInfo>
-          <Name>Hello</Name>
-          <YearPainted></YearPainted>
-          <Description></Description>
+          <Name>{paintingData.artist}</Name>
+          <Title>{paintingData.title}</Title>
+          <YearPainted>{paintingData.year}</YearPainted>
+          <Description>{paintingData.classification}</Description>
         </PaintingInfo>
       </MainContainer>
     </Styled>

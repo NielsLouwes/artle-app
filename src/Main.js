@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 // import axios from 'axios';
@@ -29,7 +29,7 @@ const Image = styled.img`
 function Main({ art }) {
   // const [image, setImage] = useState('');
   // const [data, setData] = useState(null);
-  const [paintingData, setPaintingData] = useState([]);
+  // const [paintingData, setPaintingData] = useState([]);
 
   //randomize
   //in the URL after artworks/ there is the number for the artworks
@@ -51,31 +51,31 @@ function Main({ art }) {
   //   if (input === data)
   // }
   // eslint-disable-next-line no-unused-vars
-  const imageInformation = () => {
-    fetch(`https://api.artic.edu/api/v1/artworks/27980`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        const artistTitle = data.data.artist_title;
-        const paintingTitle = data.data.title;
-        const classificationType = data.data.classification_titles[0];
+  // const imageInformation = () => {
+  //   fetch(`https://api.artic.edu/api/v1/artworks/27980`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       const artistTitle = data.data.artist_title;
+  //       const paintingTitle = data.data.title;
+  //       const classificationType = data.data.classification_titles[0];
 
-        console.log(paintingTitle);
-        console.log(classificationType);
-        console.log(artistTitle);
+  //       console.log(paintingTitle);
+  //       console.log(classificationType);
+  //       console.log(artistTitle);
 
-        setPaintingData({
-          artist: artistTitle,
-          title: paintingTitle,
-          classification: classificationType
-        });
-        console.log(paintingData);
-      });
-  };
+  //       setPaintingData({
+  //         artist: artistTitle,
+  //         title: paintingTitle,
+  //         classification: classificationType
+  //       });
+  //       console.log(paintingData);
+  //     });
+  // };
 
-  useEffect(() => {
-    imageInformation();
-  }, []);
+  // useEffect(() => {
+  //   imageInformation();
+  // }, []);
 
   return (
     <Styled>
