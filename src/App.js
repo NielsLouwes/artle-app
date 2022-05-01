@@ -20,8 +20,7 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         const paintingId = data.data.image_id;
-        console.log(data);
-        console.log(paintingId); // we get the image ID
+        // console.log(paintingId); // we get the image ID
 
         const imageMain = `${baseArtUrl}${paintingId}/full/843,/0/default.jpg`;
         setArt(imageMain);
