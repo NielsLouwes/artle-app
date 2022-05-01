@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -18,7 +19,7 @@ const YearPainted = styled.p``;
 
 const Description = styled.p``;
 
-function InfoPage() {
+function InfoPage({ art }) {
   const retrieveImage = async () => {
     try {
       const response = await axios(
@@ -34,6 +35,8 @@ function InfoPage() {
     }
   };
 
+  console.log(art);
+
   useEffect(() => {
     retrieveImage();
   }, []);
@@ -41,7 +44,7 @@ function InfoPage() {
   return (
     <Styled>
       <MainContainer>
-        <Image></Image>
+        <Image src={art}></Image>
         <PaintingInfo>
           <Name>Hello</Name>
           <YearPainted></YearPainted>
