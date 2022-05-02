@@ -34,10 +34,9 @@ function Main({ art, paintingData, loading }) {
   if (loading) {
     return <p>Data is Loading...</p>;
   }
-  // const lastName = paintingData.artist.split(' ');
-  const artistName = paintingData?.artist?.split(' '); // full name
-  const lastName = artistName.pop();
-  console.log(lastName);
+
+  const artistName = paintingData?.artist?.split(' ');
+  const lastName = artistName?.pop().toLowerCase();
 
   const inputTextHandler = (e) => {
     setUserInput(e.target.value);
@@ -45,7 +44,7 @@ function Main({ art, paintingData, loading }) {
 
   const playGame = (e) => {
     e.preventDefault();
-    if (userInput === lastName) {
+    if (userInput.toLowerCase() === lastName) {
       alert('You win!');
       navigate(`/info`);
       return;
@@ -54,33 +53,9 @@ function Main({ art, paintingData, loading }) {
     navigate(`/info`);
   };
 
-  // const lastName = artistName?.split?(' ')
-  // const finalName = lastName[1];
-  // console.log('ARTIST NAME', artistName);
-  // console.log('LAST NAME', lastName);
-  // console.log('FINAL NAME', finalName);
-
   //randomize
   //in the URL after artworks/ there is the number for the artworks
   // randomize that with a function
-
-  // 1. Get paintingData - artist name
-  // 2. Split that for only last name
-  // 3. Then event.input.value = last Name
-  // 4. Game win/loss = navigate to infopage - needs to be useState
-  // 5. on Infopage = check win/loss state and change heading based on that
-
-  // need to split the name and only grab last name
-  //compare that with input of the user
-
-  // const guessName = (event) => {
-  //   if (event.input.value === lastName) {
-  //     alert('You Win!');
-  //   }
-  //   alert('You lose!');
-  // };
-
-  // console.log(guessName);
 
   return (
     <Styled>
