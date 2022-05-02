@@ -34,8 +34,6 @@ const YearPainted = styled.p``;
 const Description = styled.p``;
 
 function InfoPage({ art, paintingData }) {
-  console.log(paintingData);
-
   return (
     <Styled>
       <MainContainer>

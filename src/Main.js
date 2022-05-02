@@ -26,9 +26,20 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
-function Main({ art, paintingData }) {
-  const lastName = paintingData.artist.split(' ')[1];
-  console.log(lastName);
+function Main({ art, paintingData, loading }) {
+  if (loading) {
+    return <p>Data is Loading...</p>;
+  }
+  // const lastName = paintingData.artist.split(' ');
+  const artistName = paintingData?.artist?.split(' '); // full name
+  console.log(paintingData);
+  console.log(artistName);
+
+  // const lastName = artistName?.split?(' ')
+  // const finalName = lastName[1];
+  // console.log('ARTIST NAME', artistName);
+  // console.log('LAST NAME', lastName);
+  // console.log('FINAL NAME', finalName);
 
   //randomize
   //in the URL after artworks/ there is the number for the artworks
@@ -43,12 +54,14 @@ function Main({ art, paintingData }) {
   // need to split the name and only grab last name
   //compare that with input of the user
 
-  const guessName = (event) => {
-    if (event.input.value === lastName) {
-      console.log('You Win!');
-    }
-    console.log('You lose!');
-  };
+  // const guessName = (event) => {
+  //   if (event.input.value === lastName) {
+  //     alert('You Win!');
+  //   }
+  //   alert('You lose!');
+  // };
+
+  // console.log(guessName);
 
   return (
     <Styled>
