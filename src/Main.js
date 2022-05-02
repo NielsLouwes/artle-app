@@ -33,8 +33,8 @@ function Main({ art, paintingData, loading }) {
   }
   // const lastName = paintingData.artist.split(' ');
   const artistName = paintingData?.artist?.split(' '); // full name
-  console.log(paintingData);
-  console.log(artistName);
+  const lastName = artistName.pop();
+  console.log(lastName);
 
   // const lastName = artistName?.split?(' ')
   // const finalName = lastName[1];
@@ -55,12 +55,12 @@ function Main({ art, paintingData, loading }) {
   // need to split the name and only grab last name
   //compare that with input of the user
 
-  const guessName = (event) => {
-    if (event.input.value === lastName) {
-      alert('You Win!');
-    }
-    alert('You lose!');
-  };
+  // const guessName = (event) => {
+  //   if (event.input.value === lastName) {
+  //     alert('You Win!');
+  //   }
+  //   alert('You lose!');
+  // };
 
   // console.log(guessName);
 
@@ -77,9 +77,7 @@ function Main({ art, paintingData, loading }) {
         noValidate
         autoComplete="off">
         <TextField id="outlined-basic" label="Guess last name" variant="outlined" />
-        <Button OnChange={guessName} variant="contained">
-          Submit answer
-        </Button>
+        <Button variant="contained">Submit answer</Button>
         <Link to="/info">See Info</Link>
       </Box>
     </Styled>
