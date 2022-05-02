@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // import axios from 'axios';
 import Box from '@mui/material/Box';
@@ -29,6 +29,8 @@ const Image = styled.img`
 
 function Main({ art, paintingData, loading }) {
   const [userInput, setUserInput] = useState('');
+  let navigate = useNavigate();
+
   if (loading) {
     return <p>Data is Loading...</p>;
   }
@@ -45,8 +47,11 @@ function Main({ art, paintingData, loading }) {
     e.preventDefault();
     if (userInput === lastName) {
       alert('You win!');
+      navigate(`/info`);
+      return;
     }
     alert('Wrong answer!');
+    navigate(`/info`);
   };
 
   // const lastName = artistName?.split?(' ')
