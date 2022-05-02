@@ -26,17 +26,29 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
-function Main({ art }) {
+function Main({ art, paintingData }) {
+  const lastName = paintingData.artist.split(' ')[1];
+  console.log(lastName);
+
   //randomize
   //in the URL after artworks/ there is the number for the artworks
   // randomize that with a function
 
+  // 1. Get paintingData - artist name
+  // 2. Split that for only last name
+  // 3. Then event.input.value = last Name
+  // 4. Game win/loss = navigate to infopage - needs to be useState
+  // 5. on Infopage = check win/loss state and change heading based on that
+
   // need to split the name and only grab last name
   //compare that with input of the user
 
-  // const guessName = (input) => {
-  //   if (input === data)
-  // }
+  const guessName = (event) => {
+    if (event.input.value === lastName) {
+      console.log('You Win!');
+    }
+    console.log('You lose!');
+  };
 
   return (
     <Styled>

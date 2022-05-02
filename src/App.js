@@ -62,7 +62,7 @@ function App() {
     <Styled className="App">
       <Navbar />
       <Routes>
-        <Route path="/" element={<Main art={art} />}></Route>
+        <Route path="/" element={<Main art={art} paintingData={paintingData} />}></Route>
         <Route path="/info" element={<InfoPage art={art} paintingData={paintingData} />}></Route>
       </Routes>
     </Styled>
