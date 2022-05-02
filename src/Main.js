@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // import axios from 'axios';
@@ -28,6 +28,7 @@ const Image = styled.img`
 `;
 
 function Main({ art, paintingData, loading }) {
+  const [userInput, setUserInput] = useState('');
   if (loading) {
     return <p>Data is Loading...</p>;
   }
@@ -35,6 +36,18 @@ function Main({ art, paintingData, loading }) {
   const artistName = paintingData?.artist?.split(' '); // full name
   const lastName = artistName.pop();
   console.log(lastName);
+
+  const inputTextHandler = (e) => {
+    setUserInput(e.target.value);
+  };
+
+  const playGame = (e) => {
+    e.preventDefault();
+    if (userInput === lastName) {
+      alert('You win!');
+    }
+    alert('Wrong answer!');
+  };
 
   // const lastName = artistName?.split?(' ')
   // const finalName = lastName[1];
@@ -76,8 +89,17 @@ function Main({ art, paintingData, loading }) {
         }}
         noValidate
         autoComplete="off">
-        <TextField id="outlined-basic" label="Guess last name" variant="outlined" />
-        <Button variant="contained">Submit answer</Button>
+        <TextField
+          value={userInput}
+          id="outlined-basic"
+          label="Guess last name"
+          variant="outlined"
+          type="text"
+          onChange={inputTextHandler}
+        />
+        <Button onClick={playGame} variant="contained">
+          Submit answer
+        </Button>
         <Link to="/info">See Info</Link>
       </Box>
     </Styled>
