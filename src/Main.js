@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 // import axios from 'axios';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import styled from 'styled-components';
 
 const Styled = styled.div`
@@ -54,12 +55,12 @@ function Main({ art, paintingData, loading }) {
   // need to split the name and only grab last name
   //compare that with input of the user
 
-  // const guessName = (event) => {
-  //   if (event.input.value === lastName) {
-  //     alert('You Win!');
-  //   }
-  //   alert('You lose!');
-  // };
+  const guessName = (event) => {
+    if (event.input.value === lastName) {
+      alert('You Win!');
+    }
+    alert('You lose!');
+  };
 
   // console.log(guessName);
 
@@ -76,6 +77,9 @@ function Main({ art, paintingData, loading }) {
         noValidate
         autoComplete="off">
         <TextField id="outlined-basic" label="Guess last name" variant="outlined" />
+        <Button OnChange={guessName} variant="contained">
+          Submit answer
+        </Button>
         <Link to="/info">See Info</Link>
       </Box>
     </Styled>
