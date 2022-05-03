@@ -27,8 +27,13 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
+// const Error = styled.p`
+//   color: red;
+// `;
+
 function Main({ art, paintingData, loading }) {
   const [userInput, setUserInput] = useState('');
+  // const [errorMessage, setErrorMessage] = useState('');
   let navigate = useNavigate();
 
   if (loading) {
@@ -44,6 +49,9 @@ function Main({ art, paintingData, loading }) {
 
   const playGame = (e) => {
     e.preventDefault();
+    // if (userInput.length < 3) {
+    //   setErrorMessage('Too few characters');
+    // }
     if (userInput.toLowerCase() === lastName) {
       alert('You win!');
       navigate(`/info`);
@@ -52,6 +60,10 @@ function Main({ art, paintingData, loading }) {
     alert('Wrong answer!');
     navigate(`/info`);
   };
+
+  // {
+  //   errorMessage && <Error>{errorMessage}</Error>;
+  // }
 
   //randomize
   //in the URL after artworks/ there is the number for the artworks
@@ -77,7 +89,7 @@ function Main({ art, paintingData, loading }) {
           type="text"
           onChange={inputTextHandler}
         />
-        <Button onClick={playGame} variant="contained">
+        <Button onClick={playGame} variant="contained" size="large">
           Submit answer
         </Button>
         <Link to="/info">See Info</Link>

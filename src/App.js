@@ -11,6 +11,7 @@ function App() {
   const [art, setArt] = useState(null);
   const [paintingData, setPaintingData] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const baseArtUrl = `https://www.artic.edu/iiif/2/`;
 
   //add this randomize as the imageID , append to baseArtUrl
@@ -35,11 +36,19 @@ function App() {
       });
   };
 
+  //solving returning only popular paintings
+  // data has a has_not_been_viewed_much key which needs to be false
+  // we need to filter on that and then randomize a result each 24 hours at the beginning of the day
+  //classification_titles[0] === 'oil on canvas;
+  // FILTER over data, return just popular and just oil on canvas
+  //THEN GRAB JUST ONE AND RANDOMIZE SOMEHOW
+
   const imageInformation = () => {
     setLoading(true);
     fetch(`https://api.artic.edu/api/v1/artworks/27980`)
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         const artistTitle = data.data.artist_title;
         const paintingTitle = data.data.title;
         const classificationType = data.data.classification_titles[0];
