@@ -16,10 +16,17 @@ function App() {
 
   //add this randomize as the imageID , append to baseArtUrl
   // const randomizePaintingId = Math.round(Math.random() * 29000);
+  const getRandomInt = (max) => {
+    return Math.floor(Math.random() * max);
+  };
+
+  const randomNumber = getRandomInt(29000);
+
+  //27980 original painting number
 
   const retrieveImage = () => {
     setLoading(true);
-    fetch(`https://api.artic.edu/api/v1/artworks/27980?fields=id,title,image_id/`)
+    fetch(`https://api.artic.edu/api/v1/artworks/${randomNumber}?fields=id,title,image_id/`)
       .then((response) => response.json())
       .then((data) => {
         const paintingId = data.data.image_id;
@@ -45,7 +52,7 @@ function App() {
 
   const imageInformation = () => {
     setLoading(true);
-    fetch(`https://api.artic.edu/api/v1/artworks/27980`)
+    fetch(`https://api.artic.edu/api/v1/artworks/${randomNumber}`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
