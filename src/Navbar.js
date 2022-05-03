@@ -107,10 +107,12 @@ function Navbar() {
         aria-describedby="modal-modal-description">
         <Box sx={style}>
           <Heading>How to play</Heading>
-          <Text>Guess the last name of artist who painted each painting. </Text>
+          <Text>Guess the last name of the artist who painted each painting. </Text>
           <br></br>
           <Text>Get the name completely correct for a point.</Text>
           <Text>Receive half a point if you guess most of the word.</Text>
+          <br></br>
+          <Text>Winners each month are given a discount code for a museum near them!</Text>
           <Divider></Divider>
           <Text>Come back everyday for a new painting!</Text>
         </Box>

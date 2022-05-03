@@ -88,6 +88,9 @@ function Main({ art, paintingData, loading }) {
           variant="outlined"
           type="text"
           onChange={inputTextHandler}
+          inputProps={{
+            maxLength: 25
+          }}
         />
         <Button onClick={playGame} variant="contained" size="large">
           Submit answer
