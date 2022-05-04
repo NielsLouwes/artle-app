@@ -16,17 +16,17 @@ function App() {
 
   //add this randomize as the imageID , append to baseArtUrl
   // const randomizePaintingId = Math.round(Math.random() * 29000);
-  const getRandomInt = (max) => {
-    return Math.floor(Math.random() * max);
-  };
+  // const getRandomInt = (max) => {
+  //   return Math.floor(Math.random() * max);
+  // };
 
-  const randomNumber = getRandomInt(29000);
+  // const randomNumber = getRandomInt(29000);
 
   //27980 original painting number
 
   const retrieveImage = () => {
     setLoading(true);
-    fetch(`https://api.artic.edu/api/v1/artworks/${randomNumber}?fields=id,title,image_id/`)
+    fetch(`https://api.artic.edu/api/v1/artworks/27980?fields=id,title,image_id/`)
       .then((response) => response.json())
       .then((data) => {
         const paintingId = data.data.image_id;
@@ -52,7 +52,39 @@ function App() {
 
   const imageInformation = () => {
     setLoading(true);
-    fetch(`https://api.artic.edu/api/v1/artworks/${randomNumber}`)
+    fetch(`https://api.artic.edu/api/v1/artworks/27980`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        const artistTitle = data.data.artist_title;
+        const paintingTitle = data.data.title;
+        const classificationType = data.data.classification_titles[0];
+        const paintingYear = data.data.fiscal_year;
+
+        setPaintingData({
+          artist: artistTitle,
+          title: paintingTitle,
+          classification: classificationType,
+          year: paintingYear
+        })
+          .catch((error) => {
+            console.error('Request failed', error);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      });
+  };
+
+  // testingSomething is return artworks with 10 results at a time that have been viewed much
+  // In here we need to randomize the selection and return painting
+
+
+  const testingSomething = () => {
+    setLoading(true);
+    fetch(
+      `https://api.artic.edu/api/v1/artworks/search?query%22%3A%7B%22term%22%3A%7B%22has_not_been_viewed_much%22%3Afalse%7D%7D%7D`
+    )
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -78,6 +110,7 @@ function App() {
 
   useEffect(() => {
     imageInformation();
+    testingSomething();
   }, []);
 
   useEffect(() => {
