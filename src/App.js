@@ -8,11 +8,11 @@ import Navbar from './Navbar';
 const Styled = styled.div``;
 
 function App() {
-  const [art, setArt] = useState(null);
+  // const [art, setArt] = useState(null);
   const [paintingData, setPaintingData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const baseArtUrl = `https://www.artic.edu/iiif/2/`;
+  // const baseArtUrl = `https://www.artic.edu/iiif/2/`;
   // const rijksArtApi = 'f1nLs8AG';
   // const exampleRijksCall = 'https://www.rijksmuseum.nl/api/en/collection/SK-C-5?key=f1nLs8AG';
 
@@ -26,41 +26,52 @@ function App() {
 
   //27980 original painting number
 
-  const retrieveImage = () => {
-    setLoading(true);
-    fetch(`https://api.artic.edu/api/v1/artworks/27980?fields=id,title,image_id/`)
-      .then((response) => response.json())
-      .then((data) => {
-        const paintingId = data.data.image_id;
-        // console.log(paintingId); // we get the image ID
+  // const retrieveImage = () => {
+  //   setLoading(true);
+  //   fetch(`https://api.artic.edu/api/v1/artworks/27980?fields=id,title,image_id/`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       const paintingId = data.data.image_id;
+  //       // console.log(paintingId); // we get the image ID
 
-        const imageMain = `${baseArtUrl}${paintingId}/full/843,/0/default.jpg`;
-        setArt(imageMain);
-      })
-      .catch((error) => {
-        console.error('Request failed', error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+  //       const imageMain = `${baseArtUrl}${paintingId}/full/843,/0/default.jpg`;
+  //       setArt(imageMain);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Request failed', error);
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
+  // };
 
   const imageInformation = () => {
     setLoading(true);
-    fetch(`https://api.artic.edu/api/v1/artworks/27980`)
+    fetch(`https://www.rijksmuseum.nl/api/en/collection/SK-C-5?key=f1nLs8AG`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        const artistTitle = data.data.artist_title;
-        const paintingTitle = data.data.title;
-        const classificationType = data.data.classification_titles[0];
-        const paintingYear = data.data.fiscal_year;
+        const paintingYear = data.artObject.dating.sortingDate;
+        const artistName = data.artObject.principalMakers[0].name;
+        const paintingTitle = data.artObject.title;
+        const paintingImageLink = data.artObject.webImage.url;
+        const paintingDescription = data.artObject.label.description;
+        const physicalMedium = data.artObject.physicalMedium;
+
+        console.log(paintingYear); // return 1642
+        console.log(artistName); // return artistName correct
+        console.log(paintingTitle);
+        console.log(paintingImageLink);
+        console.log(paintingDescription);
+        console.log(physicalMedium);
+
+        // setArt(paintingImageLink);
 
         setPaintingData({
-          artist: artistTitle,
-          title: paintingTitle,
-          classification: classificationType,
-          year: paintingYear
+          // artist: artistTitle,
+          // title: paintingTitle,
+          // classification: classificationType,
+          // year: paintingYear
         })
           .catch((error) => {
             console.error('Request failed', error);
@@ -71,50 +82,22 @@ function App() {
       });
   };
 
-  // testingSomething is return artworks with 10 results at a time that have been viewed much
-  // In here we need to randomize the selection and return painting
-
-  const testingSomething = () => {
-    setLoading(true);
-    fetch(
-      `https://api.artic.edu/api/v1/artworks/search?query%22%3A%7B%22term%22%3A%7B%22has_not_been_viewed_much%22%3Afalse%7D%7D%7D`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        const apiLink = data[0].api_link;
-        console.log(apiLink);
-      })
-      .catch((error) => {
-        console.error('Request failed', error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
   useEffect(() => {
     imageInformation();
   }, []);
 
-  useEffect(() => {
-    testingSomething();
-  }, []);
-
-  useEffect(() => {
-    retrieveImage();
-  }, []);
+  // useEffect(() => {
+  //   retrieveImage();
+  // }, []);
 
   return (
     <Styled className="App">
       <Navbar />
       <Routes>
-        <Route
-          path="/"
-          element={<Main art={art} paintingData={paintingData} loading={loading} />}></Route>
+        <Route path="/" element={<Main paintingData={paintingData} loading={loading} />}></Route>
         <Route
           path="/info"
-          element={<InfoPage art={art} paintingData={paintingData} loading={loading} />}></Route>
+          element={<InfoPage paintingData={paintingData} loading={loading} />}></Route>
       </Routes>
     </Styled>
   );
