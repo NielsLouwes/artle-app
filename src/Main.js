@@ -27,6 +27,8 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
+const LoadingText = styled.p``;
+
 // const Error = styled.p`
 //   color: red;
 // `;
@@ -37,7 +39,7 @@ function Main({ art, paintingData, loading }) {
   let navigate = useNavigate();
 
   if (loading) {
-    return <p>Data is Loading...</p>;
+    return <LoadingText>Data is Loading...</LoadingText>;
   }
 
   const artistName = paintingData?.artist?.split(' ');

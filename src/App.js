@@ -13,6 +13,8 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   const baseArtUrl = `https://www.artic.edu/iiif/2/`;
+  // const rijksArtApi = 'f1nLs8AG';
+  // const exampleRijksCall = 'https://www.rijksmuseum.nl/api/en/collection/SK-C-5?key=f1nLs8AG';
 
   //add this randomize as the imageID , append to baseArtUrl
   // const randomizePaintingId = Math.round(Math.random() * 29000);
@@ -43,13 +45,6 @@ function App() {
       });
   };
 
-  //solving returning only popular paintings
-  // data has a has_not_been_viewed_much key which needs to be false
-  // we need to filter on that and then randomize a result each 24 hours at the beginning of the day
-  //classification_titles[0] === 'oil on canvas;
-  // FILTER over data, return just popular and just oil on canvas
-  //THEN GRAB JUST ONE AND RANDOMIZE SOMEHOW
-
   const imageInformation = () => {
     setLoading(true);
     fetch(`https://api.artic.edu/api/v1/artworks/27980`)
@@ -79,7 +74,6 @@ function App() {
   // testingSomething is return artworks with 10 results at a time that have been viewed much
   // In here we need to randomize the selection and return painting
 
-
   const testingSomething = () => {
     setLoading(true);
     fetch(
@@ -88,28 +82,22 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        const artistTitle = data.data.artist_title;
-        const paintingTitle = data.data.title;
-        const classificationType = data.data.classification_titles[0];
-        const paintingYear = data.data.fiscal_year;
-
-        setPaintingData({
-          artist: artistTitle,
-          title: paintingTitle,
-          classification: classificationType,
-          year: paintingYear
-        })
-          .catch((error) => {
-            console.error('Request failed', error);
-          })
-          .finally(() => {
-            setLoading(false);
-          });
+        const apiLink = data[0].api_link;
+        console.log(apiLink);
+      })
+      .catch((error) => {
+        console.error('Request failed', error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
   useEffect(() => {
     imageInformation();
+  }, []);
+
+  useEffect(() => {
     testingSomething();
   }, []);
 
