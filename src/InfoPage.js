@@ -42,7 +42,9 @@ function InfoPage({ art, paintingData }) {
           <Name>{paintingData.artist}</Name>
           <Title>{paintingData.title}</Title>
           <YearPainted>{paintingData.year}</YearPainted>
+          <Description>{paintingData.medium}</Description>
           <Description>{paintingData.classification}</Description>
+          <Description>{paintingData.description}</Description>
         </PaintingInfo>
       </MainContainer>
     </Styled>

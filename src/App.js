@@ -49,7 +49,7 @@ function App() {
         const paintingDescription = data.artObject?.label.description;
         const physicalMedium = data.artObject?.physicalMedium;
         console.log(data);
-        setArt(data.artObject.webImage.url);
+        setArt(paintingImageLink);
         setPaintingData({
           artist: artistName,
           title: paintingTitle,
@@ -69,47 +69,6 @@ function App() {
         setLoading(false);
       });
   };
-
-  // const getArtRequest = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `https://www.rijksmuseum.nl/api/en/collection/SK-C-5?key=f1nLs8AG`
-  //     );
-  //     console.log(response.data);
-  //     console.log(response.data.artObject.dating.sortingDate); // returns year of painting
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
-  // async function fetchArt() {
-  //   setLoading(true);
-
-  //   await fetch(`https://www.rijksmuseum.nl/api/en/collection/SK-C-5?key=f1nLs8AG`)
-  //     .then(async (response) => await response.json())
-  //     .then(async (data) => {
-  //       console.log(data);
-
-  //       await setArt(paintingImageLink);
-  //      setPaintingData({
-  //         artist: artistName,
-  //         title: paintingTitle,
-  //         medium: physicalMedium,
-  //         year: paintingYear,
-  //         description: paintingDescription,
-  //         image: paintingImageLink
-  //       })
-  //         .catch((error) => {
-  //           if (error.response) {
-  //             console.log(error.response.data);
-  //           }
-  //           console.error('Request failed', error);
-  //         })
-  //         .finally(() => {
-  //           setLoading(false);
-  //         });
-  //     });
-  // // }
 
   useEffect(() => {
     getArtData();
