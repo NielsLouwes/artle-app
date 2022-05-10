@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Main from './Main';
-import styled from 'styled-components';
 import InfoPage from './InfoPage';
 import Navbar from './Navbar';
 
+import styled from 'styled-components';
+
 const Styled = styled.div``;
 
+// const LoadingText = styled.p``;
+
+// const axios = require('axios').default;
+
 function App() {
-  // const [art, setArt] = useState(null);
+  const [art, setArt] = useState([]);
   const [paintingData, setPaintingData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -24,80 +29,102 @@ function App() {
 
   // const randomNumber = getRandomInt(29000);
 
-  //27980 original painting number
-
-  // const retrieveImage = () => {
-  //   setLoading(true);
-  //   fetch(`https://api.artic.edu/api/v1/artworks/27980?fields=id,title,image_id/`)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       const paintingId = data.data.image_id;
-  //       // console.log(paintingId); // we get the image ID
-
-  //       const imageMain = `${baseArtUrl}${paintingId}/full/843,/0/default.jpg`;
-  //       setArt(imageMain);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Request failed', error);
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // };
-
-  const imageInformation = () => {
+  const getArtData = () => {
     setLoading(true);
-    fetch(`https://www.rijksmuseum.nl/api/en/collection/SK-C-5?key=f1nLs8AG`)
-      .then((response) => response.json())
-      .then((data) => {
+    fetch(`https://www.rijksmuseum.nl/api/en/collection/SK-C-5?key=f1nLs8AG`, {
+      headers: {
+        'Content-type': 'application/json',
+        Accept: 'application/json'
+      }
+    })
+      .then(function (response) {
+        console.log(response);
+        return response.json();
+      })
+      .then(function (data) {
+        const paintingYear = data.artObject?.dating.sortingDate;
+        const artistName = data.artObject?.principalMakers[0].name;
+        const paintingTitle = data.artObject?.title;
+        const paintingImageLink = data.artObject?.webImage.url;
+        const paintingDescription = data.artObject?.label.description;
+        const physicalMedium = data.artObject?.physicalMedium;
         console.log(data);
-        const paintingYear = data.artObject.dating.sortingDate;
-        const artistName = data.artObject.principalMakers[0].name;
-        const paintingTitle = data.artObject.title;
-        const paintingImageLink = data.artObject.webImage.url;
-        const paintingDescription = data.artObject.label.description;
-        const physicalMedium = data.artObject.physicalMedium;
-
-        console.log(paintingYear); // return 1642
-        console.log(artistName); // return artistName correct
-        console.log(paintingTitle);
-        console.log(paintingImageLink);
-        console.log(paintingDescription);
-        console.log(physicalMedium);
-
-        // setArt(paintingImageLink);
-
+        setArt(data.artObject.webImage.url);
         setPaintingData({
-          // artist: artistTitle,
-          // title: paintingTitle,
-          // classification: classificationType,
-          // year: paintingYear
-        })
-          .catch((error) => {
-            console.error('Request failed', error);
-          })
-          .finally(() => {
-            setLoading(false);
-          });
+          artist: artistName,
+          title: paintingTitle,
+          medium: physicalMedium,
+          year: paintingYear,
+          description: paintingDescription,
+          image: paintingImageLink
+        });
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log(error.response.data);
+        }
+        console.error('Request failed', error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
+  // const getArtRequest = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `https://www.rijksmuseum.nl/api/en/collection/SK-C-5?key=f1nLs8AG`
+  //     );
+  //     console.log(response.data);
+  //     console.log(response.data.artObject.dating.sortingDate); // returns year of painting
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+
+  // async function fetchArt() {
+  //   setLoading(true);
+
+  //   await fetch(`https://www.rijksmuseum.nl/api/en/collection/SK-C-5?key=f1nLs8AG`)
+  //     .then(async (response) => await response.json())
+  //     .then(async (data) => {
+  //       console.log(data);
+
+  //       await setArt(paintingImageLink);
+  //      setPaintingData({
+  //         artist: artistName,
+  //         title: paintingTitle,
+  //         medium: physicalMedium,
+  //         year: paintingYear,
+  //         description: paintingDescription,
+  //         image: paintingImageLink
+  //       })
+  //         .catch((error) => {
+  //           if (error.response) {
+  //             console.log(error.response.data);
+  //           }
+  //           console.error('Request failed', error);
+  //         })
+  //         .finally(() => {
+  //           setLoading(false);
+  //         });
+  //     });
+  // // }
+
   useEffect(() => {
-    imageInformation();
+    getArtData();
   }, []);
 
-  // useEffect(() => {
-  //   retrieveImage();
-  // }, []);
+  console.log(art);
 
   return (
     <Styled className="App">
       <Navbar />
       <Routes>
-        <Route path="/" element={<Main paintingData={paintingData} loading={loading} />}></Route>
+        <Route path="/" element={<Main art={art} loading={loading} />}></Route>
         <Route
           path="/info"
-          element={<InfoPage paintingData={paintingData} loading={loading} />}></Route>
+          element={<InfoPage art={art} loading={loading} paintingData={paintingData} />}></Route>
       </Routes>
     </Styled>
   );
