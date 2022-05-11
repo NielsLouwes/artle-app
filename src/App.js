@@ -71,7 +71,23 @@ function App() {
   const filteredCollection = collection.filter(
     (element) => element.principalOrFirstMaker !== 'anonymous'
   );
-  console.log(filteredCollection);
+  console.log(filteredCollection); // 98 results
+
+  // grab the keys from the object
+  const filteredCollectionKeys = Object.keys(filteredCollection);
+  console.log(filteredCollectionKeys);
+
+  //generate random index based on number of keys
+  const randIndex = Math.floor(Math.random() * filteredCollectionKeys.length);
+  console.log(randIndex);
+
+  //select key from the array of keys using the random index
+  const randKey = filteredCollectionKeys[randIndex];
+  console.log(randKey);
+
+  //get the painting ID from the key
+  const objectNumber = objectNumber[randKey];
+  console.log(objectNumber);
 
   //  const getArtData = () => {
   //   setLoading(true);
