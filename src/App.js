@@ -11,7 +11,7 @@ const Styled = styled.div``;
 // const LoadingText = styled.p``;
 
 function App() {
-  const [art, setArt] = useState([]);
+  const [artKey, setArtKey] = useState('');
   const [paintingData, setPaintingData] = useState([]);
   const [collection, setCollection] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -72,6 +72,10 @@ function App() {
     retrieveRandomPaintingIdFromCollection();
   }, [collection]);
 
+  useEffect(() => {
+    getSpecificArtData();
+  }, [artKey]);
+
   const retrieveRandomPaintingIdFromCollection = async () => {
     //take the collection of top 100 results and filter to exclude anonymous
     const filteredCollection = await collection.filter(
@@ -97,61 +101,64 @@ function App() {
     console.log(paintingReferenceNumber);
 
     const paintingID = await paintingReferenceNumber.objectNumber;
+    setArtKey(paintingID);
     console.log(paintingID); //returns PaintingID to be used for another API call to get image and specific painting data
   };
 
-  //  const getArtData = () => {
-  //   setLoading(true);
-  //   fetch(
-  //     `https://www.rijksmuseum.nl/api/en/collection?key=f1nLs8AG&material=oil%20paint%20(paint)&material=canvas&yearfrom=1550&yearto=1900&st=Objects&ii=0&ps=100`,
-  //     {
-  //       headers: {
-  //         'Content-type': 'application/json',
-  //         Accept: 'application/json'
-  //       }
-  //     }
-  //   )
-  //     .then(function (response) {
-  //       return response.json();
-  //     })
-  //     .then(function (data) {
-  //       console.log(data);
-  //       const paintingYear = data.artObject?.dating.sortingDate;
-  //       const artistName = data.artObject?.principalMakers[0].name;
-  //       const paintingTitle = data.artObject?.title;
-  //       const paintingImageLink = data.artObject?.webImage.url;
-  //       const paintingDescription = data.artObject?.label.description;
-  //       const physicalMedium = data.artObject?.physicalMedium;
+  const getSpecificArtData = () => {
+    setLoading(true);
+    fetch(`https://www.rijksmuseum.nl/api/en/collection/${artKey}?key=f1nLs8AG`, {
+      headers: {
+        'Content-type': 'application/json',
+        Accept: 'application/json'
+      }
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        console.log(data);
+        const paintingYear = data.artObject?.dating.sortingDate;
+        const artistName = data.artObject?.principalMakers[0].name;
+        const paintingTitle = data.artObject?.title;
+        const paintingImageLink = data.artObject?.webImage.url;
+        const paintingDescription = data.artObject?.label.description;
+        const physicalMedium = data.artObject?.physicalMedium;
 
-  //       setArt(paintingImageLink);
-  //       setPaintingData({
-  //         artist: artistName,
-  //         title: paintingTitle,
-  //         medium: physicalMedium,
-  //         year: paintingYear,
-  //         description: paintingDescription,
-  //         image: paintingImageLink
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       if (error.response) {
-  //         console.log(error.response.data);
-  //       }
-  //       console.error('Request failed', error);
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // };
+        console.log(paintingYear);
+        console.log(artistName);
+        console.log(paintingDescription);
+
+        setPaintingData({
+          artist: artistName,
+          title: paintingTitle,
+          medium: physicalMedium,
+          year: paintingYear,
+          description: paintingDescription,
+          image: paintingImageLink
+        });
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log(error.response.data);
+        }
+        console.error('Request failed', error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  console.log(paintingData);
 
   return (
     <Styled className="App">
       <Navbar />
       <Routes>
-        <Route path="/" element={<Main art={art} loading={loading} />}></Route>
+        <Route path="/" element={<Main loading={loading} paintingData={paintingData} />}></Route>
         <Route
           path="/info"
-          element={<InfoPage art={art} loading={loading} paintingData={paintingData} />}></Route>
+          element={<InfoPage loading={loading} paintingData={paintingData} />}></Route>
       </Routes>
     </Styled>
   );

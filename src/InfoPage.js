@@ -33,11 +33,11 @@ const YearPainted = styled.p``;
 
 const Description = styled.p``;
 
-function InfoPage({ art, paintingData }) {
+function InfoPage({ paintingData }) {
   return (
     <Styled>
       <MainContainer>
-        <Image src={art}></Image>
+        <Image src={paintingData.image}></Image>
         <PaintingInfo>
           <Name>{paintingData.artist}</Name>
           <Title>{paintingData.title}</Title>
