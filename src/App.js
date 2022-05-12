@@ -10,8 +10,6 @@ const Styled = styled.div``;
 
 // const LoadingText = styled.p``;
 
-// const axios = require('axios').default;
-
 function App() {
   const [art, setArt] = useState([]);
   const [paintingData, setPaintingData] = useState([]);
@@ -66,28 +64,41 @@ function App() {
       });
   };
 
-  //take the collection of top 100 results and filter to exclude anonymous
-  console.log(collection);
-  const filteredCollection = collection.filter(
-    (element) => element.principalOrFirstMaker !== 'anonymous'
-  );
-  console.log(filteredCollection); // 98 results
+  useEffect(() => {
+    getCollectionData();
+  }, []);
 
-  // grab the keys from the object
-  const filteredCollectionKeys = Object.keys(filteredCollection);
-  console.log(filteredCollectionKeys);
+  useEffect(() => {
+    retrieveRandomPaintingIdFromCollection();
+  }, [collection]);
 
-  //generate random index based on number of keys
-  const randIndex = Math.floor(Math.random() * filteredCollectionKeys.length);
-  console.log(randIndex);
+  const retrieveRandomPaintingIdFromCollection = async () => {
+    //take the collection of top 100 results and filter to exclude anonymous
+    const filteredCollection = await collection.filter(
+      (element) => element.principalOrFirstMaker !== 'anonymous'
+    );
+    console.log(collection);
+    console.log(filteredCollection); // 98 results
 
-  //select key from the array of keys using the random index
-  const randKey = filteredCollectionKeys[randIndex];
-  console.log(randKey);
+    // grab the keys from the object
+    const filteredCollectionKeys = await Object.keys(filteredCollection);
+    console.log(filteredCollectionKeys);
 
-  //get the painting ID from the key
-  const objectNumber = objectNumber[randKey];
-  console.log(objectNumber);
+    //generate random index based on number of keys
+    const randIndex = await Math.floor(Math.random() * filteredCollectionKeys.length);
+    console.log(randIndex);
+
+    //select key from the array of keys using the random index
+    const randomKey = await filteredCollectionKeys[randIndex];
+    console.log(randomKey);
+
+    //get the painting ID from the key
+    const paintingReferenceNumber = await filteredCollection[randomKey];
+    console.log(paintingReferenceNumber);
+
+    const paintingID = await paintingReferenceNumber.objectNumber;
+    console.log(paintingID); //returns PaintingID to be used for another API call to get image and specific painting data
+  };
 
   //  const getArtData = () => {
   //   setLoading(true);
@@ -132,10 +143,6 @@ function App() {
   //       setLoading(false);
   //     });
   // };
-
-  useEffect(() => {
-    getCollectionData();
-  }, []);
 
   return (
     <Styled className="App">
