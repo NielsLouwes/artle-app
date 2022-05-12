@@ -33,7 +33,7 @@ const LoadingText = styled.p``;
 //   color: red;
 // `;
 
-function Main({ art, paintingData, loading }) {
+function Main({ paintingData, loading }) {
   const [userInput, setUserInput] = useState('');
   // const [errorMessage, setErrorMessage] = useState('');
   let navigate = useNavigate();
@@ -67,14 +67,10 @@ function Main({ art, paintingData, loading }) {
   //   errorMessage && <Error>{errorMessage}</Error>;
   // }
 
-  //randomize
-  //in the URL after artworks/ there is the number for the artworks
-  // randomize that with a function
-
   return (
     <Styled>
       <MainContainer>
-        <Image src={art}></Image>
+        <Image src={paintingData.image} alt="The painting of the day"></Image>
       </MainContainer>
       <Box
         component="form"
