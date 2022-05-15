@@ -13,8 +13,8 @@ const Styled = styled.div`
 `;
 
 const MainContainer = styled.div`
-  width: 650px;
-  height: 650px;
+  height: 500px;
+  width: 850px;
 `;
 
 const Image = styled.img`

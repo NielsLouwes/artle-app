@@ -18,7 +18,7 @@ const Styled = styled.div`
 
 const MainContainer = styled.div`
   height: 500px;
-  width: 500px;
+  width: 850px;
   margin-bottom: 15px;
 `;
 const Image = styled.img`
