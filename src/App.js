@@ -139,9 +139,38 @@ function App() {
         setCollection(response.data.artObjects);
         console.log(response);
         console.log(collection);
-        console.log(response.data.artObjects[0].objectNumber); // finding specific paintingID
+        const paintingId = response.data.artObjects[0].objectNumber;
+        setArtKey(paintingId);
+        return paintingId;
+      })
+      .then((paintingId) =>
+        axios.get(`https://www.rijksmuseum.nl/api/en/collection/${paintingId}?key=f1nLs8AG`)
+      )
+      .then((response) => {
+        console.log(response);
+        const paintingYear = response.data.artObject?.dating.sortingDate;
+        const artistName = response.data.artObject?.principalMakers[0].name;
+        const paintingTitle = response.data.artObject?.title;
+        const paintingImageLink = response.data.artObject?.webImage.url;
+        const paintingDescription = response.data.artObject?.label.description;
+        const physicalMedium = response.data.artObject?.physicalMedium;
+
+        console.log(paintingYear);
+        console.log(artistName);
+        console.log(paintingDescription);
+
+        setPaintingData({
+          artist: artistName,
+          title: paintingTitle,
+          medium: physicalMedium,
+          year: paintingYear,
+          description: paintingDescription,
+          image: paintingImageLink
+        });
       });
   }, []);
+
+  // console.log(collection);
 
   const getCollectionData = () => {
     setLoading(true);
