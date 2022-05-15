@@ -129,67 +129,95 @@ function App() {
   // };
 
   //2nd attempt to chain different API calls and fix errors in console
+  // We are chaingin the calls to get a specific art object now. cleaner refactor
+  // Still need to find a way to get the randomized function into this call.
 
-  useEffect(() => {
+  const fetchRandomPainting = () => {};
+
+  const fetchCollection = () => {
+    setLoading(true);
     axios
       .get(
         `https://www.rijksmuseum.nl/api/en/collection?key=f1nLs8AG&material=oil%20paint%20(paint)&material=canvas&yearfrom=1550&yearto=1900&st=Objects&ii=0&ps=100`
       )
       .then((response) => {
-        setCollection(response.data.artObjects);
+        const collection = response.data.artObjects;
+        setCollection(collection);
         console.log(response);
         console.log(collection);
-        const paintingId = response.data.artObjects[0].objectNumber;
-        setArtKey(paintingId);
-        return paintingId;
+        return collection;
       })
-      .then((paintingId) =>
-        axios.get(`https://www.rijksmuseum.nl/api/en/collection/${paintingId}?key=f1nLs8AG`)
-      )
-      .then((response) => {
-        console.log(response);
-        const paintingYear = response.data.artObject?.dating.sortingDate;
-        const artistName = response.data.artObject?.principalMakers[0].name;
-        const paintingTitle = response.data.artObject?.title;
-        const paintingImageLink = response.data.artObject?.webImage.url;
-        const paintingDescription = response.data.artObject?.label.description;
-        const physicalMedium = response.data.artObject?.physicalMedium;
+      .then(async (collection) => {
+        console.log(collection);
+        const filteredCollection = await collection.filter(
+          (element) => element.principalOrFirstMaker !== 'anonymous'
+        );
+        console.log(collection);
+        console.log(filteredCollection); // 98 results
 
-        console.log(paintingYear);
-        console.log(artistName);
-        console.log(paintingDescription);
+        // grab the keys from the object
+        const filteredCollectionKeys = await Object.keys(filteredCollection);
+        console.log(filteredCollectionKeys);
 
-        setPaintingData({
-          artist: artistName,
-          title: paintingTitle,
-          medium: physicalMedium,
-          year: paintingYear,
-          description: paintingDescription,
-          image: paintingImageLink
-        });
-      });
-  }, []);
+        //generate random index based on number of keys
+        const randIndex = await Math.floor(Math.random() * filteredCollectionKeys.length);
+        console.log(randIndex);
 
-  // console.log(collection);
+        //select key from the array of keys using the random index
+        const randomKey = await filteredCollectionKeys[randIndex];
+        console.log(randomKey);
 
-  const getCollectionData = () => {
-    setLoading(true);
-    fetch(
-      `https://www.rijksmuseum.nl/api/en/collection?key=f1nLs8AG&material=oil%20paint%20(paint)&material=canvas&yearfrom=1550&yearto=1900&st=Objects&ii=0&ps=100`,
-      {
-        headers: {
-          'Content-type': 'application/json',
-          Accept: 'application/json'
-        }
-      }
-    )
-      .then(function (response) {
-        return response.json();
+        //get the painting ID from the key
+        const paintingReferenceNumber = await filteredCollection[randomKey];
+        console.log(paintingReferenceNumber);
+
+        const paintingID = await paintingReferenceNumber.objectNumber;
+        setArtKey(paintingID);
+        console.log(paintingID); //returns PaintingID to be used for another API call to get image and specific painting data
+        return paintingID;
       })
-      .then(function (data) {
-        console.log(data.artObjects);
-        console.log(data.artObjects[0].objectNumber); // finding specific paintingID
-        setCollection(data.artObjects);
+      .then(async (paintingID) => {
+        setLoading(true);
+        await fetch(`https://www.rijksmuseum.nl/api/en/collection/${paintingID}?key=f1nLs8AG`, {
+          headers: {
+            'Content-type': 'application/json',
+            Accept: 'application/json'
+          }
+        })
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (data) {
+            console.log(data);
+            const paintingYear = data.artObject?.dating.sortingDate;
+            const artistName = data.artObject?.principalMakers[0].name;
+            const paintingTitle = data.artObject?.title;
+            const paintingImageLink = data.artObject?.webImage.url;
+            const paintingDescription = data.artObject?.label.description;
+            const physicalMedium = data.artObject?.physicalMedium;
+
+            console.log(paintingYear);
+            console.log(artistName);
+            console.log(paintingDescription);
+
+            setPaintingData({
+              artist: artistName,
+              title: paintingTitle,
+              medium: physicalMedium,
+              year: paintingYear,
+              description: paintingDescription,
+              image: paintingImageLink
+            });
+          })
+          .catch((error) => {
+            if (error.response) {
+              console.log(error.response.data);
+            }
+            console.error('Request failed', error);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
       })
       .catch((error) => {
         if (error.response) {
@@ -202,38 +230,75 @@ function App() {
       });
   };
 
-  const retrieveRandomPaintingIdFromCollection = async () => {
-    //take the collection of top 100 results and filter to exclude anonymous
-    const filteredCollection = await collection.filter(
-      (element) => element.principalOrFirstMaker !== 'anonymous'
-    );
-    console.log(collection);
-    console.log(filteredCollection); // 98 results
+  useEffect(() => {
+    fetchCollection();
+  }, []);
 
-    // grab the keys from the object
-    const filteredCollectionKeys = await Object.keys(filteredCollection);
-    console.log(filteredCollectionKeys);
+  // console.log(collection);
 
-    //generate random index based on number of keys
-    const randIndex = await Math.floor(Math.random() * filteredCollectionKeys.length);
-    console.log(randIndex);
+  // const getCollectionData = () => {
+  //   setLoading(true);
+  //   fetch(
+  //     `https://www.rijksmuseum.nl/api/en/collection?key=f1nLs8AG&material=oil%20paint%20(paint)&material=canvas&yearfrom=1550&yearto=1900&st=Objects&ii=0&ps=100`,
+  //     {
+  //       headers: {
+  //         'Content-type': 'application/json',
+  //         Accept: 'application/json'
+  //       }
+  //     }
+  //   )
+  //     .then(function (response) {
+  //       return response.json();
+  //     })
+  //     .then(function (data) {
+  //       console.log(data.artObjects);
+  //       console.log(data.artObjects[0].objectNumber); // finding specific paintingID
+  //       setCollection(data.artObjects);
+  //     })
+  //     .catch((error) => {
+  //       if (error.response) {
+  //         console.log(error.response.data);
+  //       }
+  //       console.error('Request failed', error);
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
+  // };
 
-    //select key from the array of keys using the random index
-    const randomKey = await filteredCollectionKeys[randIndex];
-    console.log(randomKey);
+  // const retrieveRandomPaintingIdFromCollection = async (collection) => {
+  //   //take the collection of top 100 results and filter to exclude anonymous
+  //   const filteredCollection = await collection.filter(
+  //     (element) => element.principalOrFirstMaker !== 'anonymous'
+  //   );
+  //   console.log(collection);
+  //   console.log(filteredCollection); // 98 results
 
-    //get the painting ID from the key
-    const paintingReferenceNumber = await filteredCollection[randomKey];
-    console.log(paintingReferenceNumber);
+  //   // grab the keys from the object
+  //   const filteredCollectionKeys = await Object.keys(filteredCollection);
+  //   console.log(filteredCollectionKeys);
 
-    const paintingID = await paintingReferenceNumber.objectNumber;
-    setArtKey(paintingID);
-    console.log(paintingID); //returns PaintingID to be used for another API call to get image and specific painting data
-  };
+  //   //generate random index based on number of keys
+  //   const randIndex = await Math.floor(Math.random() * filteredCollectionKeys.length);
+  //   console.log(randIndex);
 
-  const getSpecificArtData = async () => {
+  //   //select key from the array of keys using the random index
+  //   const randomKey = await filteredCollectionKeys[randIndex];
+  //   console.log(randomKey);
+
+  //   //get the painting ID from the key
+  //   const paintingReferenceNumber = await filteredCollection[randomKey];
+  //   console.log(paintingReferenceNumber);
+
+  //   const paintingID = await paintingReferenceNumber.objectNumber;
+  //   setArtKey(paintingID);
+  //   console.log(paintingID); //returns PaintingID to be used for another API call to get image and specific painting data
+  //   return paintingID;
+  // };
+
+  const getSpecificArtData = async (paintingID) => {
     setLoading(true);
-    await fetch(`https://www.rijksmuseum.nl/api/en/collection/${artKey}?key=f1nLs8AG`, {
+    await fetch(`https://www.rijksmuseum.nl/api/en/collection/${paintingID}?key=f1nLs8AG`, {
       headers: {
         'Content-type': 'application/json',
         Accept: 'application/json'
