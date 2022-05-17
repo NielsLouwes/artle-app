@@ -17,14 +17,14 @@ const Styled = styled.div`
 `;
 
 const MainContainer = styled.div`
-  height: 500px;
-  width: 850px;
+  max-height: 650px;
+  width: 650px;
   margin-bottom: 15px;
 `;
 const Image = styled.img`
+  /* object-fit: cover; */
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
 `;
 
 const LoadingText = styled.p``;

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Main from './Main';
+import retrieveRandomPaintingIdFromCollection from './components/retrieveRandomId';
 import InfoPage from './InfoPage';
+import Main from './Main';
 import Navbar from './Navbar';
 
 import styled from 'styled-components';
 import axios from 'axios';
-import retrieveRandomPaintingIdFromCollection from './components/retrieveRandomId';
 
 const Styled = styled.div``;
 
@@ -29,18 +29,18 @@ function App() {
       .then((collection) => {
         return retrieveRandomPaintingIdFromCollection(collection);
       })
-      .then(async (paintingID) => {
+      .then((paintingID) => {
         setLoading(true);
-        await fetch(`https://www.rijksmuseum.nl/api/en/collection/${paintingID}?key=f1nLs8AG`, {
+        fetch(`https://www.rijksmuseum.nl/api/en/collection/${paintingID}?key=f1nLs8AG`, {
           headers: {
             'Content-type': 'application/json',
             Accept: 'application/json'
           }
         })
-          .then(function (response) {
+          .then((response) => {
             return response.json();
           })
-          .then(function (data) {
+          .then((data) => {
             console.log(data);
             const paintingYear = data.artObject?.dating.sortingDate;
             const artistName = data.artObject?.principalMakers[0].name;
@@ -57,15 +57,6 @@ function App() {
               description: paintingDescription,
               image: paintingImageLink
             });
-          })
-          .catch((error) => {
-            if (error.response) {
-              console.log(error.response.data);
-            }
-            console.error('Request failed', error);
-          })
-          .finally(() => {
-            setLoading(false);
           });
       })
       .catch((error) => {
