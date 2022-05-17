@@ -24,6 +24,7 @@ function App() {
       )
       .then((response) => {
         const collection = response.data.artObjects;
+        console.log(collection);
         return collection;
       })
       .then((collection) => {

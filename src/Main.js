@@ -27,6 +27,9 @@ const Image = styled.img`
   height: auto;
 `;
 
+const Text = styled.p`
+  margin-bottom: 15px;
+`;
 const LoadingText = styled.p``;
 
 // const Error = styled.p`
@@ -45,15 +48,15 @@ function Main({ paintingData, loading }) {
   const artistName = paintingData?.artist?.split(' ');
   const lastName = artistName?.pop().toLowerCase();
 
+  console.log(artistName);
+  console.log(lastName);
+
   const inputTextHandler = (e) => {
     setUserInput(e.target.value);
   };
 
   const playGame = (e) => {
     e.preventDefault();
-    // if (userInput.length < 3) {
-    //   setErrorMessage('Too few characters');
-    // }
     if (userInput.toLowerCase() === lastName) {
       alert('You win!');
       navigate(`/info`);
@@ -63,15 +66,13 @@ function Main({ paintingData, loading }) {
     navigate(`/info`);
   };
 
-  // {
-  //   errorMessage && <Error>{errorMessage}</Error>;
-  // }
-
   return (
     <Styled>
       <MainContainer>
         <Image src={paintingData.image} alt="The painting of the day"></Image>
       </MainContainer>
+      <Text>{paintingData.title}</Text>
+      <Text>{paintingData.year}</Text>
       <Box
         component="form"
         sx={{
