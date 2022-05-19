@@ -66,22 +66,42 @@ const Divider = styled.hr`
 function Navbar() {
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
+  const [open3, setOpen3] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleOpen2 = () => setOpen2(true);
   const handleClose = () => setOpen(false);
   const handleClose2 = () => setOpen2(false);
+  const handleOpen3 = () => setOpen3(true);
+  const handleClose3 = () => setOpen3(true);
 
   return (
     <Styled>
       <Title>ArTle</Title>
       <IconContainer>
         <HelpOutlineOutlinedIcon onClick={handleOpen2} />
-        <StackedLineChartOutlinedIcon />
+        <StackedLineChartOutlinedIcon onClick={handleOpen3} />
         <SettingsOutlinedIcon onClick={handleOpen} />
       </IconContainer>
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={open2}
+        onClose={handleClose2}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description">
+        <Box sx={style}>
+          <Heading>How to play</Heading>
+          <Text>Guess the last name of the artist who painted each painting. </Text>
+          <br></br>
+          <Text>Get the name completely correct for a point.</Text>
+          <Text>Receive half a point if you guess most of the word.</Text>
+          <br></br>
+          <Text>Winners each month are given a discount code for a museum near them!</Text>
+          <Divider></Divider>
+          <Text>Come back everyday for a new painting!</Text>
+        </Box>
+      </Modal>
+      <Modal
+        open={open3}
+        onClose={handleClose3}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
         <Box sx={style}>
@@ -100,21 +120,26 @@ function Navbar() {
           </Container>
         </Box>
       </Modal>
+
       <Modal
-        open={open2}
-        onClose={handleClose2}
+        open={open}
+        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
         <Box sx={style}>
-          <Heading>How to play</Heading>
-          <Text>Guess the last name of the artist who painted each painting. </Text>
-          <br></br>
-          <Text>Get the name completely correct for a point.</Text>
-          <Text>Receive half a point if you guess most of the word.</Text>
-          <br></br>
-          <Text>Winners each month are given a discount code for a museum near them!</Text>
-          <Divider></Divider>
-          <Text>Come back everyday for a new painting!</Text>
+          <Heading>Statistics</Heading>
+          <Container>
+            <Text>Games Played</Text>
+            <Link>Insert state from function here that tracks</Link>
+          </Container>
+          <Container>
+            <Text>Win Percentage</Text>
+            <Link>insert win percentage from function here</Link>
+          </Container>
+          <Container>
+            <Text>Streak</Text>
+            <Link>Insert streak figure here from function/state</Link>
+          </Container>
         </Box>
       </Modal>
     </Styled>
