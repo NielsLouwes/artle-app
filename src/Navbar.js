@@ -6,6 +6,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import StackedLineChartOutlinedIcon from '@mui/icons-material/StackedLineChartOutlined';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
+import ModalComponent from './components/Modal';
 
 const Styled = styled.div`
   height: 6vh;
@@ -72,7 +73,7 @@ function Navbar() {
   const handleClose = () => setOpen(false);
   const handleClose2 = () => setOpen2(false);
   const handleOpen3 = () => setOpen3(true);
-  const handleClose3 = () => setOpen3(true);
+  const handleClose3 = () => setOpen3(false);
 
   return (
     <Styled>
@@ -121,27 +122,7 @@ function Navbar() {
         </Box>
       </Modal>
 
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
-        <Box sx={style}>
-          <Heading>Statistics</Heading>
-          <Container>
-            <Text>Games Played</Text>
-            <Link>Insert state from function here that tracks</Link>
-          </Container>
-          <Container>
-            <Text>Win Percentage</Text>
-            <Link>insert win percentage from function here</Link>
-          </Container>
-          <Container>
-            <Text>Streak</Text>
-            <Link>Insert streak figure here from function/state</Link>
-          </Container>
-        </Box>
-      </Modal>
+      <ModalComponent open={open} setOpen={setOpen} handleClose={handleClose} />
     </Styled>
   );
 }
