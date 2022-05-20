@@ -4,15 +4,7 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import styled from 'styled-components';
 
-const Styled = styled.div`
-  height: 6vh;
-  border: 1px red solid;
-  background: black;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
+const Styled = styled.div``;
 
 const Heading = styled.h2`
   text-align: center;
