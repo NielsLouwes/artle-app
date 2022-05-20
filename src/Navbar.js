@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import StackedLineChartOutlinedIcon from '@mui/icons-material/StackedLineChartOutlined';
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
-import ModalComponent from './components/Modal';
+import ModalComponent from './components/SocialsModal';
+import StatisticModal from './components/StatisticModal';
+import GameModal from './components/GameModal';
 
 const Styled = styled.div`
   height: 6vh;
@@ -28,42 +28,6 @@ const IconContainer = styled.div`
   margin-right: 15px;
 `;
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 500,
-  height: 500,
-  bgcolor: 'black',
-  border: '2px solid black',
-  boxShadow: 24,
-  p: 4,
-  color: 'white'
-};
-
-const Heading = styled.h2`
-  text-align: center;
-  margin-bottom: 15px;
-`;
-
-const Container = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 35px;
-  margin-bottom: 35px;
-`;
-
-const Text = styled.p``;
-
-const Link = styled.p``;
-
-const Divider = styled.hr`
-  border-top: 1px solid white;
-  margin-top: 15px;
-  margin-bottom: 15px;
-`;
-
 function Navbar() {
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
@@ -83,46 +47,23 @@ function Navbar() {
         <StackedLineChartOutlinedIcon onClick={handleOpen3} />
         <SettingsOutlinedIcon onClick={handleOpen} />
       </IconContainer>
-      <Modal
-        open={open2}
-        onClose={handleClose2}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
-        <Box sx={style}>
-          <Heading>How to play</Heading>
-          <Text>Guess the last name of the artist who painted each painting. </Text>
-          <br></br>
-          <Text>Get the name completely correct for a point.</Text>
-          <Text>Receive half a point if you guess most of the word.</Text>
-          <br></br>
-          <Text>Winners each month are given a discount code for a museum near them!</Text>
-          <Divider></Divider>
-          <Text>Come back everyday for a new painting!</Text>
-        </Box>
-      </Modal>
-      <Modal
-        open={open3}
-        onClose={handleClose3}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
-        <Box sx={style}>
-          <Heading>Settings</Heading>
-          <Container>
-            <Text>Feedback</Text>
-            <Link>insert link to email here</Link>
-          </Container>
-          <Container>
-            <Text>Community</Text>
-            <Link>Twitter</Link>
-          </Container>
-          <Container>
-            <Text>Questions</Text>
-            <Link>FAQ</Link>
-          </Container>
-        </Box>
-      </Modal>
 
-      <ModalComponent open={open} setOpen={setOpen} handleClose={handleClose} />
+      <GameModal open2={open2} handleClose2={handleClose2} />
+
+      <StatisticModal open3={open3} handleClose3={handleClose3} />
+
+      <ModalComponent
+        open={open}
+        setOpen={setOpen}
+        handleClose={handleClose}
+        heading="Settings"
+        feedback="Feedback"
+        linkEmail="Insert link to email here"
+        community="Community"
+        linkTwitter="Insert here later"
+        questions="Questions"
+        faq="FAQ"
+      />
     </Styled>
   );
 }

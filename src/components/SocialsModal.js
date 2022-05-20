@@ -44,7 +44,17 @@ const style = {
   color: 'white'
 };
 
-function ModalComponent({ open, handleClose }) {
+function ModalComponent({
+  open,
+  handleClose,
+  heading,
+  feedback,
+  linkEmail,
+  community,
+  linkTwitter,
+  questions,
+  faq
+}) {
   return (
     <Styled>
       <Modal
@@ -53,18 +63,18 @@ function ModalComponent({ open, handleClose }) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
         <Box sx={style}>
-          <Heading>Statistics</Heading>
+          <Heading>{heading}</Heading>
           <Container>
-            <Text>Games Played</Text>
-            <Link>Insert state from function here that tracks</Link>
+            <Text>{feedback}</Text>
+            <Link>{linkEmail}</Link>
           </Container>
           <Container>
-            <Text>Win Percentage</Text>
-            <Link>insert win percentage from function here</Link>
+            <Text>{community}</Text>
+            <Link>{linkTwitter}</Link>
           </Container>
           <Container>
-            <Text>Streak</Text>
-            <Link>Insert streak figure here from function/state</Link>
+            <Text>{questions}</Text>
+            <Link>{faq}</Link>
           </Container>
         </Box>
       </Modal>
