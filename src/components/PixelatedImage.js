@@ -10,10 +10,10 @@ function PixelatedImage({ paintingData }) {
     image.src = paintingData.image;
 
     image.onload = () => {
-      context.drawImage(image, 0, 0, 500, 500);
+      context.drawImage(image, 0, 0, 650, 500);
     };
   }, []);
-  return <canvas ref={myCanvas} width={500} height={500} />;
+  return <canvas ref={myCanvas} width={650} height={500} />;
 }
 
 export default PixelatedImage;
