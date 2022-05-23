@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import styled from 'styled-components';
+import PixelatedImage from './components/PixelatedImage';
 
 const Styled = styled.div`
   display: flex;
@@ -21,11 +22,11 @@ const MainContainer = styled.div`
   width: 650px;
   margin-bottom: 15px;
 `;
-const Image = styled.img`
-  /* object-fit: cover; */
-  width: 100%;
-  height: auto;
-`;
+// const Image = styled.img`
+//   /* object-fit: cover; */
+//   width: 100%;
+//   height: auto;
+// `;
 
 const Text = styled.p`
   margin-bottom: 15px;
@@ -69,7 +70,8 @@ function Main({ paintingData, loading }) {
   return (
     <Styled>
       <MainContainer>
-        <Image src={paintingData.image} alt="The painting of the day"></Image>
+        {/* <Image id="image1" src={paintingData.image} alt="The painting of the day"></Image> */}
+        <PixelatedImage paintingData={paintingData} />
       </MainContainer>
       <Text>{paintingData.title}</Text>
       <Text>{paintingData.year}</Text>
