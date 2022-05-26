@@ -70,8 +70,8 @@ function Main({ paintingData, loading }) {
   return (
     <Styled>
       <MainContainer>
-        {/* <Image id="image1" src={paintingData.image} alt="The painting of the day"></Image> */}
-        <PixelatedImage paintingData={paintingData} />
+        <Image id="image1" src={paintingData.image} alt="The painting of the day"></Image>
+        {/* <PixelatedImage paintingData={paintingData} alt="The painting of the day" /> */}
       </MainContainer>
       <Text>{paintingData.title}</Text>
       <Text>{paintingData.year}</Text>
