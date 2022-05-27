@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import retrieveRandomPaintingIdFromCollection from './components/retrieveRandomId';
 import InfoPage from './InfoPage';
 import Main from './Main';
@@ -15,6 +15,14 @@ const Styled = styled.div``;
 function App() {
   const [paintingData, setPaintingData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [playerPoints, setPlayerPoints] = useState(0);
+  const [gamesPlayed, setGamesPlayed] = useState(0);
+  const [userInput, setUserInput] = useState('');
+
+  let navigate = useNavigate();
+
+  const artistName = paintingData?.artist?.split(' ');
+  const lastName = artistName?.pop().toLowerCase();
 
   const fetchCollection = () => {
     setLoading(true);
@@ -75,11 +83,39 @@ function App() {
     fetchCollection();
   }, []);
 
+  const playGame = (e) => {
+    e.preventDefault();
+    if (userInput.toLowerCase() === lastName) {
+      alert('You win!');
+      navigate(`/info`);
+      setPlayerPoints(playerPoints + 1);
+      setGamesPlayed(gamesPlayed + 1);
+      localStorage.setItem('Score', playerPoints);
+      localStorage.setGamesPlayed('Games', gamesPlayed);
+      return;
+    }
+    alert('Wrong answer!');
+    navigate(`/info`);
+    setGamesPlayed(gamesPlayed + 1);
+    localStorage.setItem('Score', playerPoints);
+    localStorage.setGamesPlayed('Games', gamesPlayed);
+  };
+
   return (
     <Styled className="App">
       <Navbar />
       <Routes>
-        <Route path="/" element={<Main loading={loading} paintingData={paintingData} />}></Route>
+        <Route
+          path="/"
+          element={
+            <Main
+              loading={loading}
+              paintingData={paintingData}
+              playGame={playGame}
+              userinput={userInput}
+              setUserInput={setUserInput}
+            />
+          }></Route>
         <Route
           path="/info"
           element={<InfoPage loading={loading} paintingData={paintingData} />}></Route>

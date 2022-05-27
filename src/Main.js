@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 // import axios from 'axios';
 import Box from '@mui/material/Box';
@@ -34,40 +34,43 @@ const LoadingText = styled.p``;
 //   color: red;
 // `;
 
-function Main({ paintingData, loading }) {
-  const [userInput, setUserInput] = useState('');
-  // const [errorMessage, setErrorMessage] = useState('');
-  let navigate = useNavigate();
+function Main({ paintingData, loading, setUserInput, userInput, playGame }) {
+  // const [userInput, setUserInput] = useState('');
+  // const [playerPoints, setPlayerPoints] = useState(0);
+  // const [gamesPlayed, setGamesPlayed] = useState(0);
+  // // const [errorMessage, setErrorMessage] = useState('');
+  // let navigate = useNavigate();
 
   if (loading) {
     return <LoadingText>Data is Loading...</LoadingText>;
   }
 
-  const artistName = paintingData?.artist?.split(' ');
-  const lastName = artistName?.pop().toLowerCase();
-
-  console.log(artistName);
-  console.log(lastName);
-
   const inputTextHandler = (e) => {
     setUserInput(e.target.value);
   };
 
-  const playGame = (e) => {
-    e.preventDefault();
-    if (userInput.toLowerCase() === lastName) {
-      alert('You win!');
-      navigate(`/info`);
-      return;
-    }
-    alert('Wrong answer!');
-    navigate(`/info`);
-  };
+  // const playGame = (e) => {
+  //   e.preventDefault();
+  //   if (userInput.toLowerCase() === lastName) {
+  //     alert('You win!');
+  //     navigate(`/info`);
+  //     setPlayerPoints(playerPoints + 1);
+  //     setGamesPlayed(gamesPlayed + 1);
+  //     localStorage.setItem('Score', playerPoints);
+  //     localStorage.setGamesPlayed('Games', gamesPlayed);
+  //     return;
+  //   }
+  //   alert('Wrong answer!');
+  //   navigate(`/info`);
+  //   setGamesPlayed(gamesPlayed + 1);
+  //   localStorage.setItem('Score', playerPoints);
+  //   localStorage.setGamesPlayed('Games', gamesPlayed);
+  // };
 
   return (
     <Styled>
       <MainContainer>
-        <Pixelify src={paintingData.image} pixelSize={7} width={650} height={650} centered={true} />
+        <Pixelify src={paintingData.image} pixelSize={6} width={650} height={650} centered={true} />
       </MainContainer>
       <Text>{paintingData.title}</Text>
       <Text>{paintingData.year}</Text>

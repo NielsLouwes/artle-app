@@ -37,6 +37,9 @@ const style = {
 };
 
 function StatisticModal({ open3, handleClose3 }) {
+  const localStorageScore = localStorage.getItem('Score');
+  console.log(localStorageScore, 'LOCAL STORAGE SCORE');
+
   return (
     <Styled>
       <Modal
