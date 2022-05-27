@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // import axios from 'axios';
 import Box from '@mui/material/Box';
@@ -34,7 +34,16 @@ const LoadingText = styled.p``;
 //   color: red;
 // `;
 
-function Main({ paintingData, loading, setUserInput, userInput, playGame }) {
+function Main({
+  paintingData,
+  loading,
+  setUserInput,
+  userInput,
+  playerPoints,
+  setPlayerPoints,
+  gamesPlayed,
+  setGamesPlayed
+}) {
   // const [userInput, setUserInput] = useState('');
   // const [playerPoints, setPlayerPoints] = useState(0);
   // const [gamesPlayed, setGamesPlayed] = useState(0);
@@ -45,27 +54,32 @@ function Main({ paintingData, loading, setUserInput, userInput, playGame }) {
     return <LoadingText>Data is Loading...</LoadingText>;
   }
 
+  let navigate = useNavigate();
+
+  const artistName = paintingData?.artist?.split(' ');
+  const lastName = artistName?.pop().toLowerCase();
+
   const inputTextHandler = (e) => {
     setUserInput(e.target.value);
   };
 
-  // const playGame = (e) => {
-  //   e.preventDefault();
-  //   if (userInput.toLowerCase() === lastName) {
-  //     alert('You win!');
-  //     navigate(`/info`);
-  //     setPlayerPoints(playerPoints + 1);
-  //     setGamesPlayed(gamesPlayed + 1);
-  //     localStorage.setItem('Score', playerPoints);
-  //     localStorage.setGamesPlayed('Games', gamesPlayed);
-  //     return;
-  //   }
-  //   alert('Wrong answer!');
-  //   navigate(`/info`);
-  //   setGamesPlayed(gamesPlayed + 1);
-  //   localStorage.setItem('Score', playerPoints);
-  //   localStorage.setGamesPlayed('Games', gamesPlayed);
-  // };
+  const playGame = (e) => {
+    e.preventDefault();
+    if (userInput.toLowerCase() === lastName) {
+      alert('You win!');
+      navigate(`/info`);
+      setPlayerPoints(playerPoints + 1);
+      setGamesPlayed(gamesPlayed + 1);
+      localStorage.setItem('Score', playerPoints);
+      localStorage.setGamesPlayed('Games', gamesPlayed);
+      return;
+    }
+    alert('Wrong answer!');
+    navigate(`/info`);
+    setGamesPlayed(gamesPlayed + 1);
+    localStorage.setItem('Score', playerPoints);
+    localStorage.setGamesPlayed('Games', gamesPlayed);
+  };
 
   return (
     <Styled>

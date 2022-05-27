@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import retrieveRandomPaintingIdFromCollection from './components/retrieveRandomId';
 import InfoPage from './InfoPage';
 import Main from './Main';
@@ -19,10 +19,10 @@ function App() {
   const [gamesPlayed, setGamesPlayed] = useState(0);
   const [userInput, setUserInput] = useState('');
 
-  let navigate = useNavigate();
+  // let navigate = useNavigate();
 
-  const artistName = paintingData?.artist?.split(' ');
-  const lastName = artistName?.pop().toLowerCase();
+  // const artistName = paintingData?.artist?.split(' ');
+  // const lastName = artistName?.pop().toLowerCase();
 
   const fetchCollection = () => {
     setLoading(true);
@@ -83,23 +83,23 @@ function App() {
     fetchCollection();
   }, []);
 
-  const playGame = (e) => {
-    e.preventDefault();
-    if (userInput.toLowerCase() === lastName) {
-      alert('You win!');
-      navigate(`/info`);
-      setPlayerPoints(playerPoints + 1);
-      setGamesPlayed(gamesPlayed + 1);
-      localStorage.setItem('Score', playerPoints);
-      localStorage.setGamesPlayed('Games', gamesPlayed);
-      return;
-    }
-    alert('Wrong answer!');
-    navigate(`/info`);
-    setGamesPlayed(gamesPlayed + 1);
-    localStorage.setItem('Score', playerPoints);
-    localStorage.setGamesPlayed('Games', gamesPlayed);
-  };
+  // const playGame = (e) => {
+  //   e.preventDefault();
+  //   if (userInput.toLowerCase() === lastName) {
+  //     alert('You win!');
+  //     navigate(`/info`);
+  //     setPlayerPoints(playerPoints + 1);
+  //     setGamesPlayed(gamesPlayed + 1);
+  //     localStorage.setItem('Score', playerPoints);
+  //     localStorage.setGamesPlayed('Games', gamesPlayed);
+  //     return;
+  //   }
+  //   alert('Wrong answer!');
+  //   navigate(`/info`);
+  //   setGamesPlayed(gamesPlayed + 1);
+  //   localStorage.setItem('Score', playerPoints);
+  //   localStorage.setGamesPlayed('Games', gamesPlayed);
+  // };
 
   return (
     <Styled className="App">
@@ -111,9 +111,12 @@ function App() {
             <Main
               loading={loading}
               paintingData={paintingData}
-              playGame={playGame}
               userinput={userInput}
               setUserInput={setUserInput}
+              playerPoints={playerPoints}
+              setPlayerPoints={setPlayerPoints}
+              gamesPlayed={gamesPlayed}
+              setGamesPlayed={setGamesPlayed}
             />
           }></Route>
         <Route
