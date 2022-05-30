@@ -9,8 +9,6 @@ import Button from '@mui/material/Button';
 import styled from 'styled-components';
 import { Pixelify } from 'react-pixelify';
 
-// import PixelatedImage from './components/PixelatedImage';
-
 const Styled = styled.div`
   display: flex;
   justify-content: center;
@@ -44,12 +42,6 @@ function Main({
   gamesPlayed,
   setGamesPlayed
 }) {
-  // const [userInput, setUserInput] = useState('');
-  // const [playerPoints, setPlayerPoints] = useState(0);
-  // const [gamesPlayed, setGamesPlayed] = useState(0);
-  // // const [errorMessage, setErrorMessage] = useState('');
-  // let navigate = useNavigate();
-
   if (loading) {
     return <LoadingText>Data is Loading...</LoadingText>;
   }
@@ -66,19 +58,19 @@ function Main({
   const playGame = (e) => {
     e.preventDefault();
     if (userInput.toLowerCase() === lastName) {
-      alert('You win!');
-      navigate(`/info`);
       setPlayerPoints(playerPoints + 1);
       setGamesPlayed(gamesPlayed + 1);
       localStorage.setItem('Score', playerPoints);
       localStorage.setGamesPlayed('Games', gamesPlayed);
+      alert('You win!');
+      navigate(`/info`);
       return;
     }
-    alert('Wrong answer!');
-    navigate(`/info`);
     setGamesPlayed(gamesPlayed + 1);
     localStorage.setItem('Score', playerPoints);
     localStorage.setGamesPlayed('Games', gamesPlayed);
+    alert('Wrong answer!');
+    navigate(`/info`);
   };
 
   return (
@@ -110,6 +102,8 @@ function Main({
           Submit answer
         </Button>
         <Link to="/info">See Info</Link>
+        <Text>{gamesPlayed}</Text>
+        <Text>{playerPoints}</Text>
       </Box>
     </Styled>
   );

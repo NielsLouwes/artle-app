@@ -7,6 +7,7 @@ import Navbar from './Navbar';
 
 import styled from 'styled-components';
 import axios from 'axios';
+// import IndexDB from './utils/IndexDB';
 
 const Styled = styled.div``;
 
@@ -18,11 +19,6 @@ function App() {
   const [playerPoints, setPlayerPoints] = useState(0);
   const [gamesPlayed, setGamesPlayed] = useState(0);
   const [userInput, setUserInput] = useState('');
-
-  // let navigate = useNavigate();
-
-  // const artistName = paintingData?.artist?.split(' ');
-  // const lastName = artistName?.pop().toLowerCase();
 
   const fetchCollection = () => {
     setLoading(true);
@@ -83,24 +79,66 @@ function App() {
     fetchCollection();
   }, []);
 
-  // const playGame = (e) => {
-  //   e.preventDefault();
-  //   if (userInput.toLowerCase() === lastName) {
-  //     alert('You win!');
-  //     navigate(`/info`);
-  //     setPlayerPoints(playerPoints + 1);
-  //     setGamesPlayed(gamesPlayed + 1);
-  //     localStorage.setItem('Score', playerPoints);
-  //     localStorage.setGamesPlayed('Games', gamesPlayed);
-  //     return;
-  //   }
-  //   alert('Wrong answer!');
-  //   navigate(`/info`);
-  //   setGamesPlayed(gamesPlayed + 1);
-  //   localStorage.setItem('Score', playerPoints);
-  //   localStorage.setGamesPlayed('Games', gamesPlayed);
-  // };
+  const IndexDB = async () => {
+    const indexedDB =
+      window.indexedDB ||
+      window.mozIndexedDB ||
+      window.webkitIndexedDB ||
+      window.msIndexedDB ||
+      window.shimIndexedDB;
 
+    if (!indexedDB) {
+      console.log('IndexedDB could not be found in this browser.');
+    }
+
+    const request = indexedDB.open('PaintingDatabase', 1);
+
+    request.onerror = (event) => {
+      console.error('Database error: ' + event.target.errorCode);
+    };
+
+    request.onupgradeneeded = () => {
+      const db = request.result;
+
+      const store = db.createObjectStore('paintings', { keyPath: 'description' }); // id is used as unique entry or key to refer to each item in the DB
+      store.createIndex('artist', ['artist'], { unique: false }); // easily look up paintings by artist
+      store.createIndex('title', ['title'], { unique: true });
+
+      request.onsuccess = function () {
+        console.log('Database opened successfully');
+
+        const db = request.result;
+
+        const transaction = db.transaction('paintings', 'readwrite'); // bunch operations together to avoid failing
+
+        const store = transaction.objectStore('paintings'); // create the store from cars objectStore
+        // const artistIndex = store.index('artist'); // create index 1
+        // const titleIndex = store.index('title'); //create index 2
+
+        store.put({ paintingData }); // put the paintingData state into the store
+
+        // retrieve data
+        const allPainitings = store.getAll();
+        allPainitings.onsuccess = function () {
+          console.log(allPainitings.result);
+        };
+
+        // idQuery.onsuccess = function () {
+        //   console.log('idQuery', idQuery.result);
+        // };
+        // colourQuery.onsuccess = function () {
+        //   console.log('colourQuery', colourQuery.result);
+        // };
+
+        // 14. Once transaction is complete, we close the DB
+        transaction.oncomplete = function () {
+          db.close();
+        };
+      };
+    };
+  };
+
+  IndexDB;
   return (
     <Styled className="App">
       <Navbar />
@@ -121,7 +159,14 @@ function App() {
           }></Route>
         <Route
           path="/info"
-          element={<InfoPage loading={loading} paintingData={paintingData} />}></Route>
+          element={
+            <InfoPage
+              loading={loading}
+              paintingData={paintingData}
+              gamesPlayed={gamesPlayed}
+              playerPoints={playerPoints}
+            />
+          }></Route>
       </Routes>
     </Styled>
   );
