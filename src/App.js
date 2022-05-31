@@ -112,23 +112,38 @@ function App() {
         const transaction = db.transaction('paintings', 'readwrite'); // bunch operations together to avoid failing
 
         const store = transaction.objectStore('paintings'); // create the store from cars objectStore
-        // const artistIndex = store.index('artist'); // create index 1
-        // const titleIndex = store.index('title'); //create index 2
+        const artistIndex = store.index('artist'); // create index 1
+        const titleIndex = store.index('title'); //create index 2
 
+        //Put the state into the store
         store.put({ paintingData }); // put the paintingData state into the store
+        store.put({
+          artist: paintingData.artist,
+          title: paintingData.title,
+          description: paintingData.description,
+          medium: paintingData.medium,
+          year: paintingData.year,
+          image: paintingData.image
+        });
+
+        console.log(store);
 
         // retrieve data
-        const allPainitings = store.getAll();
-        allPainitings.onsuccess = function () {
-          console.log(allPainitings.result);
+        const allPaintings = store.getAll();
+        allPaintings.onsuccess = function () {
+          console.log(allPaintings.result);
         };
 
-        // idQuery.onsuccess = function () {
-        //   console.log('idQuery', idQuery.result);
-        // };
-        // colourQuery.onsuccess = function () {
-        //   console.log('colourQuery', colourQuery.result);
-        // };
+        const artistQuery = artistIndex.getAll(['Vincent van Gogh']);
+        const titleQuery = titleIndex.get('Something');
+
+        artistQuery.onsuccess = function () {
+          console.log('idQuery', artistQuery.result);
+        };
+
+        titleQuery.onsuccess = function () {
+          console.log('titleQuery', titleQuery.result);
+        };
 
         // 14. Once transaction is complete, we close the DB
         transaction.oncomplete = function () {
