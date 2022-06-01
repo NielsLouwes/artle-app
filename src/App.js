@@ -75,85 +75,29 @@ function App() {
       });
   };
 
-  useEffect(() => {
-    fetchCollection();
-  }, []);
-
-  const IndexDB = async () => {
-    const indexedDB =
-      window.indexedDB ||
-      window.mozIndexedDB ||
-      window.webkitIndexedDB ||
-      window.msIndexedDB ||
-      window.shimIndexedDB;
-
-    if (!indexedDB) {
-      console.log('IndexedDB could not be found in this browser.');
+  // CRON job for running API call every 24 hours
+  const cron = require('node-cron');
+  cron.schedule(
+    '0 6 * * *',
+    () => {
+      console.log('Running a job at 06:00 at Europe/Amsterdam timezone');
+    },
+    {
+      scheduled: true,
+      timezone: 'Europe/Amsterdam'
     }
+  );
 
-    const request = indexedDB.open('PaintingDatabase', 1);
-
-    request.onerror = (event) => {
-      console.error('Database error: ' + event.target.errorCode);
-    };
-
-    request.onupgradeneeded = () => {
-      const db = request.result;
-
-      const store = db.createObjectStore('paintings', { keyPath: 'description' }); // id is used as unique entry or key to refer to each item in the DB
-      store.createIndex('artist', ['artist'], { unique: false }); // easily look up paintings by artist
-      store.createIndex('title', ['title'], { unique: true });
-
-      request.onsuccess = function () {
-        console.log('Database opened successfully');
-
-        const db = request.result;
-
-        const transaction = db.transaction('paintings', 'readwrite'); // bunch operations together to avoid failing
-
-        const store = transaction.objectStore('paintings'); // create the store from cars objectStore
-        const artistIndex = store.index('artist'); // create index 1
-        const titleIndex = store.index('title'); //create index 2
-
-        //Put the state into the store
-        store.put({ paintingData }); // put the paintingData state into the store
-        store.put({
-          artist: paintingData.artist,
-          title: paintingData.title,
-          description: paintingData.description,
-          medium: paintingData.medium,
-          year: paintingData.year,
-          image: paintingData.image
-        });
-
-        console.log(store);
-
-        // retrieve data
-        const allPaintings = store.getAll();
-        allPaintings.onsuccess = function () {
-          console.log(allPaintings.result);
-        };
-
-        const artistQuery = artistIndex.getAll(['Vincent van Gogh']);
-        const titleQuery = titleIndex.get('Something');
-
-        artistQuery.onsuccess = function () {
-          console.log('idQuery', artistQuery.result);
-        };
-
-        titleQuery.onsuccess = function () {
-          console.log('titleQuery', titleQuery.result);
-        };
-
-        // 14. Once transaction is complete, we close the DB
-        transaction.oncomplete = function () {
-          db.close();
-        };
-      };
-    };
+  //place paintingData in localStorage
+  const localStoragePaintingData = async () => {
+    await localStorage.setItem('paintingLocalStorage', JSON.stringify({ paintingData }));
   };
 
-  IndexDB;
+  useEffect(() => {
+    fetchCollection();
+    localStoragePaintingData();
+  }, []);
+
   return (
     <Styled className="App">
       <Navbar />
