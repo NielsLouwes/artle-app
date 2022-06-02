@@ -12,7 +12,6 @@
     "@testing-library/react": "^13.0.1",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.1",
-    "node-cron": "^3.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-pixelify": "^0.2.2",
@@ -49,11 +48,8 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^8.13.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.29.4",
-    "prettier": "^2.6.2"
+    "prettier": "^2.6.2",
+    "webpack-cli": "^4.9.2"
   },
   "lint": "eslint .",
   "lint:fix": "eslint --fix",
