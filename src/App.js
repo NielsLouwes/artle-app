@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import retrieveRandomPaintingIdFromCollection from './components/retrieveRandomId';
+import retrieveRandomPaintingIdFromCollection from './utils/retrieveRandomId';
 import InfoPage from './InfoPage';
 import Main from './Main';
 import Navbar from './Navbar';
-
 import styled from 'styled-components';
 import axios from 'axios';
-// import IndexDB from './utils/IndexDB';
 
 const Styled = styled.div``;
 
@@ -28,7 +26,6 @@ function App() {
       )
       .then((response) => {
         const collection = response.data.artObjects;
-        console.log(collection);
         return collection;
       })
       .then((collection) => {
@@ -46,7 +43,6 @@ function App() {
             return response.json();
           })
           .then((data) => {
-            console.log(data);
             const paintingYear = data.artObject?.dating.sortingDate;
             const artistName = data.artObject?.principalMakers[0].name;
             const paintingTitle = data.artObject?.title;

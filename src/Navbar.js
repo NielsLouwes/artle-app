@@ -42,15 +42,12 @@ function Navbar() {
   return (
     <Styled>
       <Title>ArTle</Title>
-
       <IconContainer>
         <HelpOutlineOutlinedIcon onClick={handleOpen2} />
         <StackedLineChartOutlinedIcon onClick={handleOpen3} />
         <SettingsOutlinedIcon onClick={handleOpen} />
         <GameModal open2={open2} handleClose2={handleClose2} />
-
         <StatisticModal open3={open3} handleClose3={handleClose3} />
-
         <ModalComponent
           open={open}
           setOpen={setOpen}
