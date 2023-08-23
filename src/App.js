@@ -71,27 +71,14 @@ function App() {
       });
   };
 
-  // // CRON job for running API call every 24 hours
-  // const cron = require('node-cron');
-  // const task = cron.schedule(
-  //   '0 6 * * *',
-  //   () => {
-  //     console.log('Running a job at 06:00 at Europe/Amsterdam timezone');
-  //   },
-  //   {
-  //     scheduled: true,
-  //     timezone: 'Europe/Amsterdam'
-  //   }
-  // );
-
   //place paintingData in localStorage
-  const localStoragePaintingData = async () => {
-    await localStorage.setItem('paintingLocalStorage', JSON.stringify({ paintingData }));
-  };
+  // const localStoragePaintingData = async () => {
+  //   await localStorage.setItem('paintingLocalStorage', JSON.stringify({ paintingData }));
+  // };
 
   useEffect(() => {
     fetchCollection();
-    localStoragePaintingData();
+  
   }, []);
 
   return (

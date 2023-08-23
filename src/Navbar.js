@@ -29,29 +29,26 @@ const IconContainer = styled.div`
 `;
 
 function Navbar() {
-  const [open, setOpen] = useState(false);
-  const [open2, setOpen2] = useState(false);
-  const [open3, setOpen3] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleOpen2 = () => setOpen2(true);
-  const handleClose = () => setOpen(false);
-  const handleClose2 = () => setOpen2(false);
-  const handleOpen3 = () => setOpen3(true);
-  const handleClose3 = () => setOpen3(false);
+  const [modal, setModal] = useState({ game: false, stats: false, settings: false });
+
+  const toggleModal = (name) => {
+    setModal({ ...modal, [name]: !modal[name] });
+  };
+
 
   return (
     <Styled>
       <Title>ArTle</Title>
       <IconContainer>
-        <HelpOutlineOutlinedIcon onClick={handleOpen2} />
-        <StackedLineChartOutlinedIcon onClick={handleOpen3} />
-        <SettingsOutlinedIcon onClick={handleOpen} />
-        <GameModal open2={open2} handleClose2={handleClose2} />
-        <StatisticModal open3={open3} handleClose3={handleClose3} />
-        <ModalComponent
-          open={open}
-          setOpen={setOpen}
-          handleClose={handleClose}
+        <HelpOutlineOutlinedIcon onClick={() => toggleModal('game')} />
+        <StackedLineChartOutlinedIcon onClick={() => toggleModal('stats')} />
+        <SettingsOutlinedIcon onClick={() => toggleModal('settings')} />
+        <GameModal open2={modal.game} handleClose2={() => toggleModal('game')} />
+        <StatisticModal open3={modal.stats} handleClose3={() => toggleModal('stats')} />
+       <ModalComponent
+          open={modal.settings}
+          setOpen={setModal}
+          handleClose={() => toggleModal('settings')}
           heading="Settings"
           feedback="Feedback"
           linkEmail="Insert link to email here"

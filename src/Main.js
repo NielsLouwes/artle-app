@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // import axios from 'axios';
 import Box from '@mui/material/Box';
@@ -46,32 +46,32 @@ function Main({
     return <LoadingText>Data is Loading...</LoadingText>;
   }
 
-  let navigate = useNavigate();
+  // let navigate = useNavigate();
 
   const artistName = paintingData?.artist?.split(' ');
-  const lastName = artistName?.pop().toLowerCase();
+  // const lastName = artistName?.pop().toLowerCase();
 
   const inputTextHandler = (e) => {
     setUserInput(e.target.value);
   };
 
-  const playGame = (e) => {
-    e.preventDefault();
-    if (userInput.toLowerCase() === lastName) {
-      setPlayerPoints(playerPoints + 1);
-      setGamesPlayed(gamesPlayed + 1);
-      localStorage.setItem('Score', playerPoints);
-      localStorage.setGamesPlayed('Games', gamesPlayed);
-      alert('You win!');
-      navigate(`/info`);
-      return;
-    }
-    setGamesPlayed(gamesPlayed + 1);
-    localStorage.setItem('Score', playerPoints);
-    localStorage.setGamesPlayed('Games', gamesPlayed);
-    alert('Wrong answer!');
-    navigate(`/info`);
-  };
+  // const playGame = (e) => {
+  //   e.preventDefault();
+  //   if (userInput.toLowerCase() === lastName) {
+  //     setPlayerPoints(playerPoints + 1);
+  //     setGamesPlayed(gamesPlayed + 1);
+  //     localStorage.setItem('Score', playerPoints);
+  //     localStorage.setGamesPlayed('Games', gamesPlayed);
+  //     alert('You win!');
+  //     navigate(`/info`);
+  //     return;
+  //   }
+  //   setGamesPlayed(gamesPlayed + 1);
+  //   localStorage.setItem('Score', playerPoints);
+  //   localStorage.setGamesPlayed('Games', gamesPlayed);
+  //   alert('Wrong answer!');
+  //   navigate(`/info`);
+  // };
 
   return (
     <Styled>
@@ -98,7 +98,7 @@ function Main({
             maxLength: 25
           }}
         />
-        <Button onClick={playGame} variant="contained" size="large">
+        <Button  variant="contained" size="large">
           Submit answer
         </Button>
         <Link to="/info">See Info</Link>
