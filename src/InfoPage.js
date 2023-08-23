@@ -2,6 +2,7 @@
 import React from 'react';
 
 import styled from 'styled-components';
+import { usePaintingData } from './utils/usePaintingData';
 
 const Styled = styled.div`
   height: 100vh;
@@ -33,7 +34,10 @@ const YearPainted = styled.p``;
 
 const Description = styled.p``;
 
-function InfoPage({ paintingData }) {
+function InfoPage() {
+
+  const { paintingData } = usePaintingData();
+
   return (
     <Styled>
       <MainContainer>

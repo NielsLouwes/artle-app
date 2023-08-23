@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 import styled from "styled-components";
 import { Pixelify } from "react-pixelify";
 import { useFetch } from "./utils/useFetch";
+import { usePaintingData } from "./utils/usePaintingData";
 
 const Styled = styled.div`
   display: flex;
@@ -33,7 +34,7 @@ function Main() {
 
   const [userInput, setUserInput] = useState("");
 
-  const { paintingData, loading, fetchData } = useFetch();
+  const { paintingData, loading, fetchData } = usePaintingData();
 
   // let navigate = useNavigate();
 
