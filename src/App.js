@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import InfoPage from "./InfoPage";
+import InfoPage from "./pages/InfoPage/InfoPage";
 import Main from "./pages/Main/Main";
 import Navbar from "./Navbar";
 
