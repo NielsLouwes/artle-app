@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 // import axios from 'axios';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import styled from 'styled-components';
-import { Pixelify } from 'react-pixelify';
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import styled from "styled-components";
+import { Pixelify } from "react-pixelify";
+import { useFetch } from "./utils/useFetch";
 
 const Styled = styled.div`
   display: flex;
@@ -26,34 +27,28 @@ const MainContainer = styled.div`
 const Text = styled.p`
   margin-bottom: 15px;
 `;
-const LoadingText = styled.p``;
 
-// const Error = styled.p`
-//   color: red;
-// `;
 
-function Main({
-  paintingData,
-  loading,
-  setUserInput,
-  userInput,
-  playerPoints,
-  setPlayerPoints,
-  gamesPlayed,
-  setGamesPlayed
-}) {
-  if (loading) {
-    return <LoadingText>Data is Loading...</LoadingText>;
-  }
+function Main() {
+
+  const [userInput, setUserInput] = useState("");
+
+  const { paintingData, loading, fetchData } = useFetch();
 
   // let navigate = useNavigate();
 
-  const artistName = paintingData?.artist?.split(' ');
+  // const artistName = paintingData?.artist?.split(" ");
+
   // const lastName = artistName?.pop().toLowerCase();
 
   const inputTextHandler = (e) => {
     setUserInput(e.target.value);
   };
+
+  useEffect(() => {
+    console.log('this is being called');
+    fetchData();
+  }, []);
 
   // const playGame = (e) => {
   //   e.preventDefault();
@@ -76,17 +71,25 @@ function Main({
   return (
     <Styled>
       <MainContainer>
-        <Pixelify src={paintingData.image} pixelSize={6} width={650} height={650} centered={true} />
+        {loading && <Text>Loading...</Text>} 
+        <Pixelify
+          src={paintingData?.image}
+          pixelSize={6}
+          width={650}
+          height={650}
+          centered={true}
+        />
       </MainContainer>
-      <Text>{paintingData.title}</Text>
-      <Text>{paintingData.year}</Text>
+      <Text>{paintingData?.title}</Text>
+      <Text>{paintingData?.year}</Text>
       <Box
         component="form"
         sx={{
-          '& > :not(style)': { m: 1, width: '25ch' }
+          "& > :not(style)": { m: 1, width: "25ch" },
         }}
         noValidate
-        autoComplete="off">
+        autoComplete="off"
+      >
         <TextField
           value={userInput}
           id="outlined-basic"
@@ -95,15 +98,13 @@ function Main({
           type="text"
           onChange={inputTextHandler}
           inputProps={{
-            maxLength: 25
+            maxLength: 25,
           }}
         />
-        <Button  variant="contained" size="large">
+        <Button variant="contained" size="large">
           Submit answer
         </Button>
         <Link to="/info">See Info</Link>
-        <Text>{gamesPlayed}</Text>
-        <Text>{playerPoints}</Text>
       </Box>
     </Styled>
   );

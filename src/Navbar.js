@@ -10,7 +10,6 @@ import GameModal from './components/GameModal';
 
 const Styled = styled.div`
   height: 6vh;
-  border: 1px red solid;
   background: black;
   color: white;
   display: flex;
