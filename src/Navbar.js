@@ -25,6 +25,8 @@ const Title = styled.h1`
 const IconContainer = styled.div`
   margin-left: 15px;
   margin-right: 15px;
+  display: flex;
+  gap: 10px;
 `;
 
 function Navbar() {
